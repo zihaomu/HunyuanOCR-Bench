@@ -178,8 +178,8 @@ After merging accepted result branches:
 git add leaderboards/ results/README.md
 ```
 
-The generated [results overview](results/) links each machine's evidence and keeps
-non-comparable samples separate. Detailed accuracy and speed tables are in [leaderboards](leaderboards/).
+The generated [results overview](results/) links each machine's evidence and combines
+all available speed measurements in one table. Detailed accuracy and speed tables are in [leaderboards](leaderboards/).
 
 ## Development Checks
 

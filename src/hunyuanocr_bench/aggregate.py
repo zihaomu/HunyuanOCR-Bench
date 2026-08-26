@@ -298,14 +298,18 @@ def aggregate_results(
         "",
         "This page summarizes the machine results currently merged into `main`. Values are generated from validated evidence in each machine directory.",
         "",
-        "## Published Speed Results",
+        "## Speed Results",
         "",
-        "Rows are ordered by profile and then Page/s. Only rows with the same profile are directly comparable.",
+        "Rows are ordered by Page/s. The Profile column identifies the measurement inventory used for each result.",
         "",
         "| Machine | Accelerator | Profile | Avg latency (s)↓ | P95 (s)↓ | Page/s↑ | Token/s* |",
         "| --- | --- | --- | ---: | ---: | ---: | ---: |",
     ]
-    for result in published_speed:
+    overview_speed = sorted(
+        speed_results,
+        key=lambda item: (-item["speed"]["page_per_second"], item["machine_id"]),
+    )
+    for result in overview_speed:
         accelerator = result["accelerator"]
         accelerator_label = f"{accelerator['count']}× {accelerator['model']}"
         speed = result["speed"]
@@ -315,30 +319,8 @@ def aggregate_results(
             f"{_f(speed['latency_seconds']['p95'], 3)} | {_f(speed['page_per_second'], 4)} | "
             f"{_f(speed['token_per_second'], 1)} |"
         )
-    if not published_speed:
+    if not overview_speed:
         overview_lines.append("| - | - | - | - | - | - | - |")
-    if references:
-        overview_lines.extend(
-            [
-                "",
-                "## Non-comparable Sampled References",
-                "",
-                "These samples are shown for visibility only. They do not use a publishable leaderboard profile and are not ranked against the table above.",
-                "",
-                "| Machine | Accelerator | Sample | Avg latency (s) | P95 (s) | Page/s | Token/s* |",
-                "| --- | --- | --- | ---: | ---: | ---: | ---: |",
-            ]
-        )
-        for result in references:
-            accelerator = result["accelerator"]
-            accelerator_label = f"{accelerator['count']}× {accelerator['model']}"
-            speed = result["speed"]
-            overview_lines.append(
-                f"| [{result['machine_id']}]({result['machine_id']}/) | {accelerator_label} | "
-                f"{speed['profile_id']} | {_f(speed['average_latency_seconds'], 3)} | "
-                f"{_f(speed['latency_seconds']['p95'], 3)} | {_f(speed['page_per_second'], 4)} | "
-                f"{_f(speed['token_per_second'], 1)} |"
-            )
     overview_lines.extend(["", "## Accuracy Status", ""])
     if results:
         overview_lines.append(
