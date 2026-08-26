@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hunyuanocr-bench"
+version = "0.1.0"
+description = "Cross-hardware HunyuanOCR-1.5 benchmark on OmniDocBench v1.6"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+hyocr-bench = "hunyuanocr_bench.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Immutable but large local inputs
+assets/
+
+# Raw run output: predictions, evaluator render files, and logs
+work/
+
+# Local secrets and endpoint overrides
+.env
+*.local.json
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store

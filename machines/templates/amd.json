@@ -1,0 +1,27 @@
+{
+  "machine_id": "amd-replace-me",
+  "vendor": "amd",
+  "accelerator": {
+    "model": "REPLACE_ME",
+    "count": 1,
+    "memory_gib_each": null
+  },
+  "runtime": {
+    "framework": "vLLM",
+    "framework_version": "REPLACE_ME",
+    "inference_method": "ar",
+    "base_url": "http://127.0.0.1:8000/v1",
+    "served_model_name": "tencent/HunyuanOCR",
+    "container_image": "REPLACE_ME",
+    "container_image_digest": "REPLACE_ME",
+    "precision": "bfloat16",
+    "tensor_parallel": 1
+  },
+  "software": {
+    "os": "REPLACE_ME",
+    "driver": "REPLACE_ME",
+    "compute_stack": "ROCm REPLACE_ME",
+    "pytorch": "REPLACE_ME"
+  },
+  "notes": "Replace every REPLACE_ME before a publishable run."
+}

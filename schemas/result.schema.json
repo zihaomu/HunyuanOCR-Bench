@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/zihaomu/HunyuanOCR-Bench/schemas/result.schema.json",
+  "title": "HunyuanOCR-Bench canonical result",
+  "type": "object",
+  "required": ["schema_version", "status", "run_id", "created_at", "protocol_id", "protocol_revision", "machine_id", "vendor", "accelerator", "runtime", "model", "dataset", "evaluator", "accuracy", "speed", "artifacts"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "PASS"},
+    "run_id": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "format": "date-time"},
+    "protocol_id": {"const": "hunyuanocr-1.5-omnidocbench-1.6-v1"},
+    "protocol_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "machine_id": {"type": "string", "pattern": "^(amd|nvidia)-[a-z0-9][a-z0-9-]{2,57}$"},
+    "vendor": {"enum": ["amd", "nvidia"]},
+    "accelerator": {
+      "type": "object",
+      "required": ["model", "count", "memory_gib_each"],
+      "properties": {
+        "model": {"type": "string", "minLength": 1},
+        "count": {"type": "integer", "minimum": 1},
+        "memory_gib_each": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "required": ["framework", "framework_version", "inference_method", "base_url", "served_model_name", "container_image", "container_image_digest", "precision", "tensor_parallel"],
+      "properties": {
+        "inference_method": {"enum": ["ar", "dflash"]},
+        "served_model_name": {"const": "tencent/HunyuanOCR"},
+        "tensor_parallel": {"type": "integer", "minimum": 1}
+      }
+    },
+    "model": {
+      "type": "object",
+      "required": ["name", "type", "size", "code_revision", "weights_revision"],
+      "properties": {
+        "name": {"const": "HunyuanOCR-1.5"},
+        "code_revision": {"const": "c55965d3da1e6f41987abec8068f2e70851318bc"},
+        "weights_revision": {"const": "449e7d471a8a1ef5bd5d652e4881183d7252cbc7"}
+      }
+    },
+    "dataset": {
+      "type": "object",
+      "required": ["name", "revision", "expected_images", "gt_sha256"],
+      "properties": {
+        "name": {"const": "OmniDocBench v1.6"},
+        "revision": {"const": "d386947f7fc3bafdcd756c8485845a2f43a19875"},
+        "expected_images": {"const": 1651},
+        "gt_sha256": {"const": "a45cd84b04ad8b793e775089640e6b681209abea33ead54c1828ddca35fae496"}
+      }
+    },
+    "evaluator": {
+      "type": "object",
+      "required": ["revision", "image"],
+      "properties": {
+        "revision": {"const": "147cd5ac9472002f5751221d390bf00abdbc0d2f"},
+        "image": {"const": "ghcr.io/zeng-weijun/omnidocbench-eval@sha256:6116ad72172e763b5c43e963d5efebf2093f2362b975f58156ce4f6c9142e617"}
+      }
+    },
+    "accuracy": {
+      "type": "object",
+      "required": ["status", "protocol_id", "dataset_pages", "metrics", "source"],
+      "properties": {
+        "status": {"const": "PASS"},
+        "protocol_id": {"const": "hunyuanocr-1.5-omnidocbench-1.6-v1"},
+        "dataset_pages": {"const": 1651},
+        "metrics": {
+          "type": "object",
+          "required": ["overall", "text_edit", "formula_cdm", "table_teds", "table_teds_s", "order_edit"],
+          "additionalProperties": false,
+          "properties": {
+            "overall": {"type": "number", "minimum": 0, "maximum": 100},
+            "text_edit": {"type": "number", "minimum": 0, "maximum": 1},
+            "formula_cdm": {"type": "number", "minimum": 0, "maximum": 100},
+            "table_teds": {"type": "number", "minimum": 0, "maximum": 100},
+            "table_teds_s": {"type": "number", "minimum": 0, "maximum": 100},
+            "order_edit": {"type": "number", "minimum": 0, "maximum": 1}
+          }
+        }
+      }
+    },
+    "speed": {
+      "type": "object",
+      "required": ["status", "protocol_id", "profile_id", "sample_inventory_sha256", "images", "requests", "successful", "failed", "truncated", "missing_completion_tokens", "average_latency_seconds", "page_per_second", "parameters"],
+      "properties": {
+        "status": {"const": "PASS"},
+        "protocol_id": {"const": "hunyuanocr-1.5-omnidocbench-1.6-v1"},
+        "profile_id": {"const": "full1651-c1"},
+        "sample_inventory_sha256": {"const": "344d236b31d265915b723f3106613bbbeaf37cf988db7f58b76d88cbb7c2a1b4"},
+        "images": {"const": 1651},
+        "requests": {"const": 1651},
+        "successful": {"const": 1651},
+        "failed": {"const": 0},
+        "truncated": {"const": 0},
+        "missing_completion_tokens": {"const": 0},
+        "average_latency_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "page_per_second": {"type": "number", "exclusiveMinimum": 0},
+        "parameters": {
+          "type": "object",
+          "required": ["temperature", "max_tokens", "extra_body", "concurrency", "warmup_pages", "repetitions", "image_data_url_mime"],
+          "properties": {
+            "temperature": {"const": 0.0},
+            "max_tokens": {"const": 8000},
+            "extra_body": {"type": "object", "required": ["top_k"], "properties": {"top_k": {"const": 1}}},
+            "concurrency": {"const": 1},
+            "warmup_pages": {"const": 10},
+            "repetitions": {"const": 1},
+            "image_data_url_mime": {"const": "image/png"}
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["accuracy_sha256", "speed_sha256", "machine_capture_sha256", "assets_verification_sha256", "prediction_verification_sha256", "evaluator_summary_sha256", "speed_records_sha256", "machine_profile_sha256"],
+      "additionalProperties": false,
+      "patternProperties": {".*_sha256$": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    }
+  }
+}

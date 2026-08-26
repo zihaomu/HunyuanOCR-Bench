@@ -1,0 +1,134 @@
+{
+  "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+  "paper": {
+    "title": "HunyuanOCR-1.5: Making Lightweight OCR VLMs Faster and Better",
+    "arxiv": "2607.04884v2",
+    "url": "https://arxiv.org/pdf/2607.04884v2"
+  },
+  "model": {
+    "name": "HunyuanOCR-1.5",
+    "type": "End2End Expert OCR Models",
+    "size": "1B",
+    "repository": "Tencent-Hunyuan/HunyuanOCR",
+    "code_revision": "c55965d3da1e6f41987abec8068f2e70851318bc",
+    "weights_repository": "tencent/HunyuanOCR",
+    "weights_revision": "449e7d471a8a1ef5bd5d652e4881183d7252cbc7"
+  },
+  "dataset": {
+    "name": "OmniDocBench v1.6",
+    "repository": "opendatalab/OmniDocBench",
+    "revision": "d386947f7fc3bafdcd756c8485845a2f43a19875",
+    "expected_files": 1659,
+    "expected_images": 1651,
+    "gt_file": "OmniDocBench.json",
+    "gt_bytes": 42208096,
+    "gt_sha256": "a45cd84b04ad8b793e775089640e6b681209abea33ead54c1828ddca35fae496",
+    "coverage": {
+      "subsets": {
+        "v1.5": 1355,
+        "equation_hard": 100,
+        "layout_hard": 99,
+        "table_hard": 97
+      },
+      "languages": 5,
+      "document_types": 10,
+      "layouts": 5
+    }
+  },
+  "evaluator": {
+    "repository": "opendatalab/OmniDocBench",
+    "revision": "147cd5ac9472002f5751221d390bf00abdbc0d2f",
+    "image": "ghcr.io/zeng-weijun/omnidocbench-eval@sha256:6116ad72172e763b5c43e963d5efebf2093f2362b975f58156ce4f6c9142e617",
+    "config": "protocol/omnidocbench-v1.6-end2end.yaml",
+    "config_sha256": "9ecdab12fa28c51cfcbac74cc9d701f8114b92fe628829453298a4c5693d5381"
+  },
+  "prompt": "提取文档图片中正文的所有信息用markdown格式表示，其中页眉、页脚部分忽略，表格用html格式表达，文档中公式用latex格式表示，按照阅读顺序组织进行解析。",
+  "accuracy": {
+    "expected_pages": 1651,
+    "request": {
+      "task_type": "doc_parse",
+      "temperature": 0.0,
+      "top_p": 1.0,
+      "top_k": -1,
+      "repetition_penalty": 1.08,
+      "max_tokens": 32768,
+      "doc_postprocess": true,
+      "concurrency": 1
+    },
+    "overall_formula": "((1 - TextEdit) * 100 + FormulaCDM + TableTEDS) / 3",
+    "columns": [
+      "Model Type",
+      "Model Size",
+      "Overall↑",
+      "TextEdit↓",
+      "FormulaCDM↑",
+      "TableTEDS↑",
+      "TableTEDS_S↑",
+      "OrderEdit↓"
+    ]
+  },
+  "speed_profiles": {
+    "full1651-c1": {
+      "description": "Project primary cross-hardware profile over all public v1.6 pages",
+      "expected_pages": 1651,
+      "sample_source": "dataset_gt",
+      "warmup_pages": 10,
+      "repetitions": 1,
+      "timeout_seconds": 3600,
+      "request": {
+        "temperature": 0.0,
+        "max_tokens": 8000,
+        "extra_body": {
+          "top_k": 1
+        }
+      },
+      "sample_inventory_sha256": "344d236b31d265915b723f3106613bbbeaf37cf988db7f58b76d88cbb7c2a1b4",
+      "publishable": true,
+      "sample_list": "protocol/omnidocbench-v1.6-full1651.txt",
+      "image_data_url_mime": "image/png"
+    },
+    "paper930-c1": {
+      "description": "Paper-aligned profile; requires the unpublished speed_eval_set_930.txt inventory",
+      "expected_pages": 930,
+      "sample_source": "external_list",
+      "sample_list_publicly_available": false,
+      "warmup_pages": 0,
+      "repetitions": 1,
+      "timeout_seconds": 3600,
+      "request": {
+        "temperature": 0.0,
+        "max_tokens": 8000,
+        "extra_body": {
+          "top_k": 1
+        }
+      },
+      "publishable": false,
+      "image_data_url_mime": "image/png"
+    }
+  },
+  "paper_reference": {
+    "accuracy": {
+      "overall": 94.74,
+      "text_edit": 0.039,
+      "formula_cdm": 94.5,
+      "table_teds": 93.67,
+      "table_teds_s": 94.71,
+      "order_edit": 0.129
+    },
+    "speed": {
+      "hardware": "1x NVIDIA H20 80GB",
+      "profile": "paper930-c1",
+      "ar": {
+        "average_latency_seconds": 3.032,
+        "page_per_second": 0.33,
+        "token_per_second": 466.9
+      },
+      "dflash": {
+        "average_latency_seconds": 1.408,
+        "page_per_second": 0.706,
+        "token_per_second": 1002.3,
+        "speedup": 2.14
+      }
+    }
+  }
+}
