@@ -1,0 +1,126 @@
+{
+  "schema_version": "sampled-speed-v1",
+  "status": "SAMPLED",
+  "publishable": false,
+  "purpose": "Quick hardware speed estimate; not an official full1651-c1 leaderboard result.",
+  "generated_at": "2026-08-26T08:47:26.074938+00:00",
+  "machine_id": "amd-strix-halo-halo3",
+  "accelerator": {
+    "model": "AMD Ryzen AI Max+ 395 w/ Radeon 8060S (gfx1151)",
+    "count": 1,
+    "memory_gib_each": 120
+  },
+  "runtime": {
+    "framework": "vLLM",
+    "framework_version": "0.1.dev1+ga1274c75b.d20260807",
+    "inference_method": "ar",
+    "base_url": "http://127.0.0.1:8000/v1",
+    "served_model_name": "tencent/HunyuanOCR",
+    "container_image": "ghcr.io/inferstation/vllm-rocm-halo:latest",
+    "container_image_digest": "sha256:ff89ae6d0cc44eb70b9bada85b535652058c0daf3c2c2c542da844b6f592cae6",
+    "precision": "bfloat16",
+    "tensor_parallel": 1
+  },
+  "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+  "protocol_revision": "4623c6c7d77155dbc406d1db74a378c713535cf8",
+  "source_run_id": "amd-strix-halo-halo3-20260826T065105Z-ar",
+  "sample": {
+    "method": "30 deterministic evenly spaced records from the measured 584-page canonical prefix",
+    "selection_uses_performance_values": false,
+    "pages": 30,
+    "source_measured_pages": 584,
+    "full_profile_pages": 1651,
+    "source_record_indices_1_based": [
+      10,
+      30,
+      49,
+      69,
+      88,
+      108,
+      127,
+      147,
+      166,
+      185,
+      205,
+      224,
+      244,
+      263,
+      283,
+      302,
+      322,
+      341,
+      361,
+      380,
+      400,
+      419,
+      439,
+      458,
+      477,
+      497,
+      516,
+      536,
+      555,
+      575
+    ],
+    "inventory_sha256": "934258614d8ea4e5f54d4caed29a07b54324320a8125136d006a0721257c43ca",
+    "first_image": "PPT_1637904769_page_001.png",
+    "last_image": "jiaocaineedrop_jiaocai_needrop_en_1253.jpg",
+    "distribution": {
+      "language": {
+        "en_ch_mixed": 1,
+        "english": 20,
+        "simplified_chinese": 9
+      },
+      "data_source": {
+        "PPT2PDF": 7,
+        "academic_literature": 4,
+        "book": 8,
+        "colorful_textbook": 4,
+        "exam_paper": 4,
+        "magazine": 1,
+        "research_report": 2
+      }
+    }
+  },
+  "request": {
+    "temperature": 0.0,
+    "max_tokens": 8000,
+    "extra_body": {
+      "top_k": 1
+    },
+    "concurrency": 1,
+    "inherited_warmup_pages": 10
+  },
+  "metrics": {
+    "requests": 30,
+    "successful": 30,
+    "failed": 0,
+    "truncated": 0,
+    "request_seconds_sum": 311.144174,
+    "average_latency_seconds": 10.371472,
+    "page_per_second": 0.096418,
+    "completion_tokens": 25157,
+    "token_per_second": 80.8532,
+    "latency_seconds": {
+      "p50": 5.678095,
+      "p90": 18.863695,
+      "p95": 32.408052,
+      "p99": 57.159939,
+      "min": 0.338583,
+      "max": 57.159939
+    }
+  },
+  "cross_check_against_584_pages": {
+    "reference_average_latency_seconds": 10.094086,
+    "sample_average_latency_difference_percent": 2.748,
+    "reference_token_per_second": 82.3005,
+    "sample_token_per_second_difference_percent": -1.7586,
+    "note": "The 584-page raw run remains under ignored work/ and is not included in this result directory."
+  },
+  "artifacts": {
+    "speed_records_sha256": "9701377b80d4fe80b0adab14bb6dc1dd7232fd7a3b18e0c62b2c347a7eff6520",
+    "machine_profile_sha256": "c11b8f9ef391f0e56edeaa378b1d012fb2a4773ce4b33eae6465056a46f7daa7",
+    "machine_capture_sha256": "b2b5f6c647891280c2b2af96b01c7ff5db7b6d91a1f6bb7c48f9bb8c285a682e",
+    "assets_verification_sha256": "2a3ea3144bd3d984256536e22267243a91614c975bf0bde54cad0582e7cb88ce"
+  }
+}

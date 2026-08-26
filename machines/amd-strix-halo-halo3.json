@@ -1,0 +1,27 @@
+{
+  "machine_id": "amd-strix-halo-halo3",
+  "vendor": "amd",
+  "accelerator": {
+    "model": "AMD Ryzen AI Max+ 395 w/ Radeon 8060S (gfx1151)",
+    "count": 1,
+    "memory_gib_each": 120
+  },
+  "runtime": {
+    "framework": "vLLM",
+    "framework_version": "0.1.dev1+ga1274c75b.d20260807",
+    "inference_method": "ar",
+    "base_url": "http://127.0.0.1:8000/v1",
+    "served_model_name": "tencent/HunyuanOCR",
+    "container_image": "ghcr.io/inferstation/vllm-rocm-halo:latest",
+    "container_image_digest": "sha256:ff89ae6d0cc44eb70b9bada85b535652058c0daf3c2c2c542da844b6f592cae6",
+    "precision": "bfloat16",
+    "tensor_parallel": 1
+  },
+  "software": {
+    "os": "Ubuntu 24.04.4 LTS; Linux 7.0.0-28-generic",
+    "driver": "amdgpu 7.0.0-28-generic",
+    "compute_stack": "ROCm 7.15.0",
+    "pytorch": "2.14.0a0+rocm7.15.0a20260719"
+  },
+  "notes": "Single gfx1151 integrated GPU with unified memory; torch reports 120 GiB device memory (2 GiB VRAM plus 120 GiB GTT reported by rocm-smi). AR endpoint uses BF16, TP=1, the full 131072-token model context, and a fixed 16 GiB KV cache. vLLM --skip-mm-profiling skips only the worst-case 30-image startup memory profile; single-page inference is unchanged and host memory headroom was verified before the run. Host policy remained power-profiles-daemon balanced, amd-pstate EPP balance_performance, and GPU performance level auto because the unprivileged performance-profile switch was denied."
+}
