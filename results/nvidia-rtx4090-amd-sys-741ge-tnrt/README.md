@@ -23,6 +23,13 @@ pages and the official evaluator must finish before accuracy is published.
 | Token throughput | 392.6721 token/s |
 | Measured wall time | 45.502569 s |
 
+Token throughput is the protocol aggregate, not a single-request peak: 17,838
+completion tokens divided by 45.427218 seconds of summed end-to-end request
+latency. The 27 measured requests ran serially, with at most one request in
+flight. Individual completion-token rates ranged from 277.27 to 422.76 token/s
+(median 394.59 token/s). The latency boundary includes the HTTP request,
+server-side image processing, prefill, and decode.
+
 The run used one visible NVIDIA GeForce RTX 4090 (physical GPU0), tensor
 parallelism 1, and request concurrency 1. GPU1 did not participate in the speed
 measurement. Request settings were `temperature=0`, `max_tokens=8000`, and
