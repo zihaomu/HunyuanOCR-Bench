@@ -32,10 +32,9 @@ The immutable contract lives in [protocol/benchmark-v1.json](protocol/benchmark-
 
 The official overall score is:
 
-$$
-\operatorname{Overall} = \frac{100(1-\operatorname{TextEdit}) +
-\operatorname{FormulaCDM} + \operatorname{TableTEDS}}{3}.
-$$
+```text
+Overall = ((1 - TextEdit) * 100 + FormulaCDM + TableTEDS) / 3
+```
 
 `TableTEDS_S` and `OrderEdit` are reported but are not terms in `Overall`.
 
@@ -45,13 +44,13 @@ $$
 sequentially after ten unmeasured warm-up requests. The request matches the paper:
 concurrency 1, `temperature=0`, `max_tokens=8000`, and `top_k=1`.
 
-For page latency $t_i$ and generated token count $c_i$:
+For page latency `t_i` and generated token count `c_i`:
 
-$$
-\operatorname{Latency}=\frac{1}{N}\sum_i t_i,\qquad
-\operatorname{Page/s}=\frac{N}{\sum_i t_i},\qquad
-\operatorname{Token/s}=\frac{\sum_i c_i}{\sum_i t_i}.
-$$
+```text
+Latency = sum(t_i) / N
+Page/s  = N / sum(t_i)
+Token/s = sum(c_i) / sum(t_i)
+```
 
 `paper930-c1` can reproduce the paper's 930-page speed profile only when the exact
 `speed_eval_set_930.txt` is provided via `PAPER930_LIST`. The upstream docs refer
