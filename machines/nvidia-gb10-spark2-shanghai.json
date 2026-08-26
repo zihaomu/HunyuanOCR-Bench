@@ -1,0 +1,27 @@
+{
+  "machine_id": "nvidia-gb10-spark2-shanghai",
+  "vendor": "nvidia",
+  "accelerator": {
+    "model": "NVIDIA GB10",
+    "count": 1,
+    "memory_gib_each": 128
+  },
+  "runtime": {
+    "framework": "vLLM",
+    "framework_version": "0.26.0",
+    "inference_method": "ar",
+    "base_url": "http://127.0.0.1:8000/v1",
+    "served_model_name": "tencent/HunyuanOCR",
+    "container_image": "ghcr.io/inferstation/vllm-cuda-spark:latest",
+    "container_image_digest": "sha256:e51157695347d2cee1b13f1ac05369df6216af5d2991b6ad5a2e700861cba4b1",
+    "precision": "bfloat16",
+    "tensor_parallel": 1
+  },
+  "software": {
+    "os": "Ubuntu 24.04.4 LTS, Linux 6.17.0-1021-nvidia, aarch64",
+    "driver": "580.159.03",
+    "compute_stack": "CUDA 13.0",
+    "pytorch": "2.11.0+cu130"
+  },
+  "notes": "DGX Spark GB10 with 128 GB unified system memory; container OS Ubuntu 22.04.5 LTS; BF16 verified in-container; single accelerator reserved; persistence mode enabled; device power limit is not exposed by nvidia-smi. vLLM 0.26.0 is launched with --chat-template /runtime/template.jinja; the runtime template emits the model image token only, so vLLM adds the single official image start/image/end sequence expected by HunyuanOCR-1.5. GPU memory utilization is fixed at 0.35 because GPU and host share the Spark 128 GB unified memory; 0.90 exhausted system memory and was rejected during preflight."
+}
