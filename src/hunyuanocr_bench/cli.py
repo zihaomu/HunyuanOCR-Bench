@@ -142,8 +142,17 @@ def main(argv: list[str] | None = None) -> int:
             load_and_validate_result(args.path)
             print(f"PASS: {args.path}")
         elif args.command == "aggregate":
-            results = aggregate_results(args.results_root, args.output_dir)
-            print(f"PASS: aggregated {len(results)} result(s)")
+            results = aggregate_results(args.results_root, args.output_dir, protocol)
+            speed_results = json.loads(
+                (args.output_dir / "speed-results.json").read_text(encoding="utf-8")
+            )
+            published_speed = sum(result["publishable"] for result in speed_results)
+            references = len(speed_results) - published_speed
+            print(
+                f"PASS: aggregated {len(results)} complete result(s), "
+                f"{published_speed} published speed result(s), and "
+                f"{references} non-comparable reference(s)"
+            )
         return 0
     except (KeyError, ValueError, FileNotFoundError, RuntimeError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
