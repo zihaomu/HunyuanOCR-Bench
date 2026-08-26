@@ -1,0 +1,128 @@
+{
+    "system": {
+        "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+        "python_version": "3.10.21 (main, Aug 25 2026, 14:01:09) [Clang 22.1.3 ]",
+        "python_executable": "/home/zihaomu/bigssd/hunyuan_ocr_workspace/envs/omnidocbench-eval/bin/python",
+        "python_prefix": "/home/zihaomu/bigssd/hunyuan_ocr_workspace/envs/omnidocbench-eval",
+        "conda_env": "",
+        "conda_prefix": "",
+        "libc": "glibc 2.35",
+        "uname": "Linux 1f0e60ad89a3 6.8.0-136-generic #136~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Jul  3 16:29:11 UTC  x86_64 x86_64",
+        "os_release": {
+            "PRETTY_NAME": "Ubuntu 22.04.5 LTS",
+            "NAME": "Ubuntu",
+            "VERSION_ID": "22.04",
+            "VERSION": "22.04.5 LTS (Jammy Jellyfish)",
+            "VERSION_CODENAME": "jammy",
+            "ID": "ubuntu",
+            "ID_LIKE": "debian",
+            "HOME_URL": "https://www.ubuntu.com/",
+            "SUPPORT_URL": "https://help.ubuntu.com/",
+            "BUG_REPORT_URL": "https://bugs.launchpad.net/ubuntu/",
+            "PRIVACY_POLICY_URL": "https://www.ubuntu.com/legal/terms-and-policies/privacy-policy",
+            "UBUNTU_CODENAME": "jammy"
+        }
+    },
+    "system_packages": {
+        "package_manager": "dpkg-query",
+        "tracked_packages": {
+            "ghostscript": "ghostscript=9.55.0~dfsg1-0ubuntu5.13",
+            "imagemagick": "unavailable (dpkg-query: no packages found matching imagemagick)",
+            "fontconfig": "fontconfig=2.13.1-4.2ubuntu5",
+            "python3": "python3=3.10.6-1~22.04.1",
+            "python3-pip": "python3-pip=",
+            "python3-setuptools": "python3-setuptools=",
+            "python3-wheel": "python3-wheel=",
+            "texlive-base": "unavailable (dpkg-query: no packages found matching texlive-base)",
+            "texlive-binaries": "texlive-binaries=",
+            "texlive-lang-chinese": "unavailable (dpkg-query: no packages found matching texlive-lang-chinese)",
+            "texlive-lang-cjk": "unavailable (dpkg-query: no packages found matching texlive-lang-cjk)",
+            "texlive-latex-base": "unavailable (dpkg-query: no packages found matching texlive-latex-base)",
+            "texlive-latex-extra": "unavailable (dpkg-query: no packages found matching texlive-latex-extra)",
+            "texlive-fonts-recommended": "unavailable (dpkg-query: no packages found matching texlive-fonts-recommended)",
+            "texlive-plain-generic": "unavailable (dpkg-query: no packages found matching texlive-plain-generic)",
+            "latexml": "latexml="
+        }
+    },
+    "python_packages": {
+        "apted": "1.0.3",
+        "beautifulsoup4": "4.11.1",
+        "evaluate": "0.4.3",
+        "func-timeout": "4.3.5",
+        "Levenshtein": "0.25.1",
+        "loguru": "0.7.2",
+        "lxml": "4.9.1",
+        "matplotlib": "3.7.5",
+        "nltk": "3.9.1",
+        "numpy": "1.24.4",
+        "pandas": "2.0.3",
+        "Pillow": "10.4.0",
+        "pylatexenc": "2.10",
+        "PyYAML": "6.0.2",
+        "scipy": "1.10.1",
+        "tabulate": "0.9.0",
+        "tqdm": "4.67.1",
+        "pip": "unavailable",
+        "setuptools": "unavailable",
+        "wheel": "unavailable"
+    },
+    "external_tools": {
+        "pdflatex": {
+            "path": "/home/zihaomu/bigssd/hunyuan_ocr_workspace/tools/texlive/2025/bin/x86_64-linux/pdflatex",
+            "returncode": 0,
+            "output": "pdfTeX 3.141592653-2.6-1.40.28 (TeX Live 2025) | kpathsea version 6.4.1 | Copyright 2025 Han The Thanh (pdfTeX) et al. | There is NO warranty.  Redistribution of this software is | covered by the terms of both the pdfTeX copyright and"
+        },
+        "kpsewhich": {
+            "path": "/home/zihaomu/bigssd/hunyuan_ocr_workspace/tools/texlive/2025/bin/x86_64-linux/kpsewhich",
+            "returncode": 0,
+            "output": "kpathsea version 6.4.1 | Copyright 2023 Karl Berry & Olaf Weber. | License LGPLv2.1+: GNU Lesser GPL version 2.1 or later <https://gnu.org/licenses/lgpl.html> | This is free software: you are free to change and redistribute it. | There is NO WARRANTY, to the extent permitted by law."
+        },
+        "tlmgr": {
+            "path": "/home/zihaomu/bigssd/hunyuan_ocr_workspace/tools/texlive/2025/bin/x86_64-linux/tlmgr",
+            "returncode": 0,
+            "output": "tlmgr revision 76773 (2025-11-06 20:43:29 +0100) | tlmgr using installation: /home/zihaomu/bigssd/hunyuan_ocr_workspace/tools/texlive/2025 | TeX Live (https://tug.org/texlive) version 2025"
+        },
+        "ghostscript": {
+            "path": "/usr/bin/gs",
+            "returncode": 0,
+            "output": "9.55.0"
+        },
+        "magick": {
+            "path": "/home/zihaomu/bigssd/hunyuan_ocr_workspace/tools/imagemagick-7.1.1-47/bin/magick",
+            "returncode": 0,
+            "output": "Version: ImageMagick 7.1.1-47 Q16-HDRI x86_64 c8f4e8cb7:20250329 https://imagemagick.org | Copyright: (C) 1999 ImageMagick Studio LLC | License: https://imagemagick.org/script/license.php | Features: Cipher DPC HDRI Modules OpenMP(4.5) | Delegates (built-in): fontconfig freetype gslib jbig jng jpeg ltdl lzma png ps tiff webp zlib"
+        },
+        "convert": {
+            "path": "/home/zihaomu/bigssd/hunyuan_ocr_workspace/tools/imagemagick-7.1.1-47/bin/convert",
+            "returncode": 0,
+            "output": "WARNING: The convert command is deprecated in IMv7, use \"magick\" instead of \"convert\" or \"magick convert\" | Version: ImageMagick 7.1.1-47 Q16-HDRI x86_64 c8f4e8cb7:20250329 https://imagemagick.org | Copyright: (C) 1999 ImageMagick Studio LLC | License: https://imagemagick.org/script/license.php | Features: Cipher DPC HDRI Modules OpenMP(4.5)"
+        },
+        "identify": {
+            "path": "/home/zihaomu/bigssd/hunyuan_ocr_workspace/tools/imagemagick-7.1.1-47/bin/identify",
+            "returncode": 0,
+            "output": "Version: ImageMagick 7.1.1-47 Q16-HDRI x86_64 c8f4e8cb7:20250329 https://imagemagick.org | Copyright: (C) 1999 ImageMagick Studio LLC | License: https://imagemagick.org/script/license.php | Features: Cipher DPC HDRI Modules OpenMP(4.5) | Delegates (built-in): fontconfig freetype gslib jbig jng jpeg ltdl lzma png ps tiff webp zlib"
+        },
+        "latexmlc": {
+            "path": "latexmlc",
+            "returncode": null,
+            "output": "unavailable (FileNotFoundError: [Errno 2] No such file or directory: 'latexmlc')"
+        }
+    },
+    "texlive": {
+        "cjk_font_family": "gkai",
+        "cjk_sty": {
+            "path": "/home/zihaomu/bigssd/hunyuan_ocr_workspace/tools/texlive/2025/texmf-dist/tex/latex/cjk/texinput/CJK.sty",
+            "version": "4.8.5 (16-Oct-2021)",
+            "date": "2021/10/16",
+            "header": "% This is the file CJK.sty of the CJK package",
+            "status": "ok"
+        },
+        "cjk_font_fd": {
+            "path": "/home/zihaomu/bigssd/hunyuan_ocr_workspace/tools/texlive/2025/texmf-dist/tex/latex/cjk/texinput/UTF8/c70gkai.fd",
+            "version": "4.8.5 (16-Oct-2021)",
+            "date": "2021/10/16",
+            "header": "% This is the file c70gkai.fd of the CJK package",
+            "status": "ok"
+        }
+    }
+}

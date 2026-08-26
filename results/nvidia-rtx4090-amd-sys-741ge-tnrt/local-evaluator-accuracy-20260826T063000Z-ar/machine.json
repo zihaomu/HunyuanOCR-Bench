@@ -1,0 +1,32 @@
+{
+  "machine_id": "nvidia-rtx4090-amd-sys-741ge-tnrt",
+  "vendor": "nvidia",
+  "accelerator": {
+    "model": "NVIDIA GeForce RTX 4090",
+    "count": 1,
+    "memory_gib_each": 48.0
+  },
+  "runtime": {
+    "framework": "vLLM",
+    "framework_version": "0.26.1rc1.dev457+gc810e5ee9",
+    "inference_method": "ar",
+    "base_url": "http://127.0.0.1:18081/v1",
+    "served_model_name": "tencent/HunyuanOCR",
+    "container_image": "ghcr.io/inferstation/vllm-cuda-4090:latest",
+    "container_image_digest": "sha256:6877023dee3a2456e00f468813607fd4ec21cd92c6386e5433e2f7422bf087a8",
+    "precision": "bfloat16",
+    "tensor_parallel": 1,
+    "physical_gpu": 0,
+    "max_model_len": 131072,
+    "gpu_memory_utilization": 0.9,
+    "accuracy_replica_gpus": [0, 1],
+    "accuracy_ports": [18081, 18082]
+  },
+  "software": {
+    "os": "Ubuntu 22.04, kernel 6.8.0-136-generic",
+    "driver": "NVIDIA 590.48.01",
+    "compute_stack": "CUDA 13.0",
+    "pytorch": "2.13.0+cu130"
+  },
+  "notes": "Speed is measured on physical GPU0 only with one visible GPU, TP=1, request concurrency=1, max_model_len=131072, max_num_batched_tokens=131072, and gpu_memory_utilization=0.9. Accuracy is not a speed measurement and is distributed over two independent TP=1 replicas on physical GPU0 and GPU1 (ports 18081 and 18082). Model, data, vLLM caches, logs, and benchmark work products reside under /home/zihaomu/bigssd/hunyuan_ocr_workspace/."
+}

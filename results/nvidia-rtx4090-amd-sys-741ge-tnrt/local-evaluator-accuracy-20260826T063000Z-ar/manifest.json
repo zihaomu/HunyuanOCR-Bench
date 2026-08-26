@@ -1,0 +1,43 @@
+{
+  "status": "PASS_LOCAL_EVALUATOR",
+  "canonical": false,
+  "reason": "Actual evaluator base image differs from the protocol-pinned evaluator image; result.json is intentionally omitted.",
+  "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+  "run_id": "nvidia-rtx4090-amd-sys-741ge-tnrt-20260826T063000Z-ar",
+  "generated_at": "2026-08-26T14:03:36.984247+00:00",
+  "dataset_pages": 1651,
+  "evaluator_source_revision": "147cd5ac9472002f5751221d390bf00abdbc0d2f",
+  "config_sha256": "9ecdab12fa28c51cfcbac74cc9d701f8114b92fe628829453298a4c5693d5381",
+  "gt_sha256": "a45cd84b04ad8b793e775089640e6b681209abea33ead54c1828ddca35fae496",
+  "actual_evaluator_base": {
+    "repo_digest": "ghcr.io/inferstation/vllm-cuda-4090@sha256:6877023dee3a2456e00f468813607fd4ec21cd92c6386e5433e2f7422bf087a8",
+    "image_id": "sha256:1f92b5cc10bd3a88d50259aeb6190fffc60299107ad93857eadd04deb01be21f",
+    "python": "3.10.21",
+    "tex_live": "2025",
+    "pdftex": "3.141592653-2.6-1.40.28",
+    "imagemagick": "7.1.1-47",
+    "ghostscript": "9.55.0",
+    "filelock": "3.18.0",
+    "cjk_font_family": "gkai"
+  },
+  "protocol_pinned_evaluator_image": "ghcr.io/zeng-weijun/omnidocbench-eval@sha256:6116ad72172e763b5c43e963d5efebf2093f2362b975f58156ce4f6c9142e617",
+  "artifacts": {
+    "accuracy.json": "6f8dfd1c60b23b9f345cef6350d034b35005b8f1b7c3f2721c5427ac987f3d5e",
+    "assets-verification.json": "2a3ea3144bd3d984256536e22267243a91614c975bf0bde54cad0582e7cb88ce",
+    "evaluator-metric-result.json": "8ec3a4aec126e28084421deac0118292bc6f881e617bc1728d49fd6a71840813",
+    "evaluator-run-summary.json": "251207ea489f806251acc7f3563069a72e7885a7a0951059df27f1726edb7559",
+    "evaluator-runtime-environment.json": "f6b073a435af72fc53632cbeae493b4bdeec38f9999b4fcdf37467d44acc4192",
+    "evaluator-stage-execution.json": "565e43ad8f1ffd7eee4c774eed44f5f39375c8694b1f4bbfbd78fff91f3fd688",
+    "machine-capture-postrun.json": "4d3d44a51d51cb7aa1d6e606f5f6b9652d81b80f581d3b0ece66d34d29d4f286",
+    "machine-capture-run-start.json": "3aa00ea4fec4e7653e6af241177241835d6a04525007018a08b5fb575cfc48c1",
+    "machine.json": "479da87509bed745b62cc586e6ee1d2465b24ba03a43e954f5d8db924ff84f2d",
+    "prediction-verification.json": "0d4e820f0b7d1671df9883d262101cf48ee3bdfaa5204fa8cc4eb579bff6e348"
+  },
+  "machine_evidence": {
+    "run_start": "machine-capture-run-start.json",
+    "run_start_note": "Captured before physical_gpu, max_model_len, gpu_memory_utilization, and accuracy replica metadata were added to the published profile.",
+    "postrun": "machine-capture-postrun.json",
+    "postrun_profile_matches_machine_json": true,
+    "postrun_nvidia_smi_returncode": 0
+  }
+}
