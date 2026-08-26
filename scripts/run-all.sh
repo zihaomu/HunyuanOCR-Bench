@@ -3,7 +3,7 @@ set -Eeuo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 MACHINE=${1:?usage: run-all.sh MACHINE_PROFILE [SPEED_PROFILE]}
-SPEED_PROFILE=${2:-full1651-c1}
+SPEED_PROFILE=${2:-quick9-c1}
 ASSETS_DIR=${ASSETS_DIR:-$ROOT/assets}
 WORK_DIR=${WORK_DIR:-$ROOT/work}
 MACHINE_ID=$(PYTHONPATH="$ROOT/src" python3 -m hunyuanocr_bench.cli profile-get --machine "$MACHINE" machine_id)

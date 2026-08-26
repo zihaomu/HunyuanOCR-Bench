@@ -5,6 +5,7 @@ import json
 import re
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
@@ -122,3 +123,18 @@ def dotted_get(source: dict[str, Any], dotted_key: str) -> Any:
             raise KeyError(dotted_key)
         value = value[key]
     return value
+
+
+def accuracy_endpoint_config(machine: dict[str, Any]) -> tuple[str, list[int]]:
+    runtime = machine["runtime"]
+    parsed = urlparse(runtime["base_url"])
+    if parsed.scheme != "http" or not parsed.hostname or not parsed.port or parsed.path.rstrip("/") != "/v1":
+        raise ValueError("accuracy inference requires an http://HOST:PORT/v1 base_url")
+    ports = runtime.get("accuracy_ports") or [parsed.port]
+    if not isinstance(ports, list) or not ports:
+        raise ValueError("runtime.accuracy_ports must be a non-empty list")
+    if any(isinstance(port, bool) or not isinstance(port, int) or not 1 <= port <= 65535 for port in ports):
+        raise ValueError("runtime.accuracy_ports must contain valid integer ports")
+    if len(ports) != len(set(ports)):
+        raise ValueError("runtime.accuracy_ports must be unique")
+    return parsed.hostname, ports

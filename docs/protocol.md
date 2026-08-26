@@ -41,10 +41,14 @@ complete JSON response. Image reads and base64 encoding occur before timing.
 Warm-up requests are not included. Primary speed is page/s computed from the sum
 of individual request latencies; process wall page/s is retained as a diagnostic.
 
-The paper's `paper930-c1` profile has no warm-up because the published reference
-script has none. The project `full1651-c1` profile has ten warm-up requests so
-JIT compilation and lazy model initialization do not dominate cross-machine
-measurements.
+The primary `quick9-c1` profile contains three text, three formula, and three
+table pages selected at the 20th, 50th, and 80th complexity percentiles within
+each category. Every case receives one unmeasured warm-up and three timed runs.
+Speed is always single-GPU with request concurrency 1.
+
+`full1651-c1` is an extended diagnostic profile. All 1651 pages are still
+mandatory for accuracy. The paper's `paper930-c1` profile has no warm-up because
+the published reference script has none.
 
 The public `full1651-c1` filename list is committed as
 `protocol/omnidocbench-v1.6-full1651.txt` with SHA-256

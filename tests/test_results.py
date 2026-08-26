@@ -72,21 +72,21 @@ class PublishedResultTests(unittest.TestCase):
             "source": {"sha256": sha256_file(root / "evaluator-summary.json")}
         }
         inventory = (
-            Path(__file__).resolve().parents[1] / "protocol" / "omnidocbench-v1.6-full1651.txt"
+            Path(__file__).resolve().parents[1] / "protocol" / "omnidocbench-v1.6-speed-quick9.txt"
         ).read_text(encoding="utf-8").splitlines()
         records = [
             {
-                "repetition": 1,
-                "image": image_name,
+                "repetition": repetition,
+                "image": image,
                 "ok": True,
                 "latency_seconds": 2.0,
                 "completion_tokens": 10,
                 "output_chars": 20,
                 "finish_reason": "stop"
             }
-            for image_name in inventory
+            for repetition in range(1, 4)
+            for image in inventory
         ]
-        image_names = [record["image"] for record in records]
         parameters = {
             "temperature": 0.0,
             "max_tokens": 8000,
@@ -94,16 +94,16 @@ class PublishedResultTests(unittest.TestCase):
             "base_url": "http://127.0.0.1:8000/v1",
             "model": "tencent/HunyuanOCR",
             "concurrency": 1,
-            "warmup_pages": 10,
-            "repetitions": 1,
+            "warmup_pages": 9,
+            "repetitions": 3,
             "image_data_url_mime": "image/png"
         }
         speed = summarize_speed(
             records,
-            wall_seconds=3302.0,
+            wall_seconds=54.0,
             protocol_id="hunyuanocr-1.5-omnidocbench-1.6-v1",
-            profile_id="full1651-c1",
-            sample_sha256=sha256_lines(image_names),
+            profile_id="quick9-c1",
+            sample_sha256=sha256_lines(inventory),
             parameters=parameters
         )
         payloads = {

@@ -60,7 +60,7 @@ PYTHON_BIN=/path/to/runtime/bin/python ./scripts/run-all.sh machines/<id>.json
 
 ```bash
 ./scripts/check-endpoint.sh machines/<id>.json
-./scripts/run-all.sh machines/<id>.json full1651-c1
+./scripts/run-all.sh machines/<id>.json quick9-c1
 ```
 
 Inspect the canonical `result.json` and both verification reports before commit.

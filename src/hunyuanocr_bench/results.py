@@ -92,23 +92,24 @@ def validate_result(result: dict[str, Any]) -> list[str]:
     if speed.get("status") != "PASS":
         errors.append("speed status must be PASS")
     profile_id = speed.get("profile_id")
-    if profile_id not in {"full1651-c1", "paper930-c1"}:
+    if profile_id not in {"quick9-c1", "full1651-c1", "paper930-c1"}:
         errors.append("unknown speed profile_id")
-    if profile_id != "full1651-c1":
-        errors.append("paper930-c1 is not publishable until its official inventory is released")
-    expected_speed_pages = {"full1651-c1": 1651, "paper930-c1": 930}.get(profile_id)
+    if profile_id != "quick9-c1":
+        errors.append("only quick9-c1 is publishable in protocol v1")
+    expected_speed_pages = {"quick9-c1": 9, "full1651-c1": 1651, "paper930-c1": 930}.get(profile_id)
+    expected_speed_requests = {"quick9-c1": 27, "full1651-c1": 1651, "paper930-c1": 930}.get(profile_id)
     if speed.get("images") != expected_speed_pages or speed.get("successful") != speed.get("requests"):
         errors.append("speed page/request inventory is incomplete")
-    if profile_id == "full1651-c1" and speed.get("sample_inventory_sha256") != (
-        "344d236b31d265915b723f3106613bbbeaf37cf988db7f58b76d88cbb7c2a1b4"
+    if profile_id == "quick9-c1" and speed.get("sample_inventory_sha256") != (
+        "28f59abf2efbac69a32a3914e184e63d160accb90474036b51105ec7817d72eb"
     ):
-        errors.append("full1651 speed inventory hash mismatch")
+        errors.append("quick9 speed inventory hash mismatch")
     if speed.get("failed") != 0:
         errors.append("speed contains failed requests")
     if speed.get("missing_completion_tokens") != 0:
         errors.append("speed contains responses without completion token counts")
-    if speed.get("requests") != expected_speed_pages:
-        errors.append("speed must run exactly one request per profile page")
+    if speed.get("requests") != expected_speed_requests:
+        errors.append("speed request count does not match the profile")
     parameters = speed.get("parameters") or {}
     if parameters.get("concurrency") != 1:
         errors.append("speed concurrency must be 1")
@@ -116,8 +117,9 @@ def validate_result(result: dict[str, Any]) -> list[str]:
         errors.append("speed request parameters do not match protocol")
     if (parameters.get("extra_body") or {}).get("top_k") != 1:
         errors.append("speed top_k must be 1")
-    expected_warmup = {"full1651-c1": 10, "paper930-c1": 0}.get(profile_id)
-    if parameters.get("warmup_pages") != expected_warmup or parameters.get("repetitions") != 1:
+    expected_warmup = {"quick9-c1": 9, "full1651-c1": 10, "paper930-c1": 0}.get(profile_id)
+    expected_repetitions = {"quick9-c1": 3, "full1651-c1": 1, "paper930-c1": 1}.get(profile_id)
+    if parameters.get("warmup_pages") != expected_warmup or parameters.get("repetitions") != expected_repetitions:
         errors.append("speed warm-up or repetition count does not match profile")
     if parameters.get("image_data_url_mime") != "image/png":
         errors.append("speed image data URL MIME must match the paper")
@@ -317,7 +319,8 @@ def load_and_validate_result(path: Path) -> dict[str, Any]:
             unique_names = sorted({record.get("image", "") for record in records})
             if "" in unique_names or sha256_lines(unique_names) != speed["sample_inventory_sha256"]:
                 errors.append("speed record inventory hash mismatch")
-            if {record.get("repetition") for record in records} != {1}:
+            expected_repetition_set = set(range(1, int(speed["parameters"]["repetitions"]) + 1))
+            if {record.get("repetition") for record in records} != expected_repetition_set:
                 errors.append("speed records contain unexpected repetitions")
             recalculated = summarize_speed(
                 records,
