@@ -60,7 +60,10 @@ declares every base64 image as `image/png`; accuracy uses the pinned model clien
 - AR and DFlash results may be displayed together but must preserve their
   `inference_method` label.
 - A multi-GPU run is not a single-GPU result and must report accelerator count.
-- A failed or truncated speed request makes the speed run non-publishable.
+- A failed speed request makes the speed run non-publishable. A response ending
+  at the fixed `max_tokens=8000` limit remains part of the published latency,
+  page/s, and token totals, matching the upstream benchmark script; its count is
+  reported as `truncated`.
 - Missing prediction files or failed inference records make accuracy
   non-publishable.
 - Evaluator runtime is not part of model speed.

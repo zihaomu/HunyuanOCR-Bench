@@ -127,7 +127,7 @@ def summarize_speed(
     failed = len(records) - len(successful)
     truncated = sum(record.get("finish_reason") == "length" for record in successful)
     missing_tokens = sum(record.get("completion_tokens") is None for record in successful)
-    status = "PASS" if records and failed == 0 and truncated == 0 and missing_tokens == 0 else "FAIL"
+    status = "PASS" if records and failed == 0 and missing_tokens == 0 else "FAIL"
     return {
         "status": status,
         "protocol_id": protocol_id,

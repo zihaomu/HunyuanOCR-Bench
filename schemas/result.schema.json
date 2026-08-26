@@ -92,7 +92,7 @@
         "requests": {"const": 1651},
         "successful": {"const": 1651},
         "failed": {"const": 0},
-        "truncated": {"const": 0},
+        "truncated": {"type": "integer", "minimum": 0, "maximum": 1651},
         "missing_completion_tokens": {"const": 0},
         "average_latency_seconds": {"type": "number", "exclusiveMinimum": 0},
         "page_per_second": {"type": "number", "exclusiveMinimum": 0},

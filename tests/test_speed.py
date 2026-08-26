@@ -57,6 +57,20 @@ class SpeedTests(unittest.TestCase):
         self.assertEqual(summary["token_per_second"], 10.0)
         self.assertEqual(summary["wall_page_per_second"], 0.4)
 
+    def test_length_limited_response_is_counted_not_failed(self) -> None:
+        summary = summarize_speed(
+            [{
+                "image": "long.png", "ok": True, "latency_seconds": 10.0,
+                "completion_tokens": 8000, "finish_reason": "length",
+            }],
+            wall_seconds=10.0, protocol_id="p", profile_id="full1651-c1",
+            sample_sha256="x", parameters={"max_tokens": 8000},
+        )
+        self.assertEqual(summary["status"], "PASS")
+        self.assertEqual(summary["truncated"], 1)
+        self.assertEqual(summary["successful"], 1)
+        self.assertEqual(summary["completion_tokens"], 8000)
+
     def test_speed_request_against_openai_compatible_api(self) -> None:
         FakeHandler.requests = []
         server = ThreadingHTTPServer(("127.0.0.1", 0), FakeHandler)

@@ -103,8 +103,8 @@ def validate_result(result: dict[str, Any]) -> list[str]:
         "344d236b31d265915b723f3106613bbbeaf37cf988db7f58b76d88cbb7c2a1b4"
     ):
         errors.append("full1651 speed inventory hash mismatch")
-    if speed.get("failed") != 0 or speed.get("truncated") != 0:
-        errors.append("speed contains failed or truncated requests")
+    if speed.get("failed") != 0:
+        errors.append("speed contains failed requests")
     if speed.get("missing_completion_tokens") != 0:
         errors.append("speed contains responses without completion token counts")
     if speed.get("requests") != expected_speed_pages:
