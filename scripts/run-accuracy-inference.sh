@@ -14,27 +14,29 @@ GT=$ASSETS_DIR/data/OmniDocBench_v1_6/OmniDocBench.json
 "$ROOT/scripts/check-endpoint.sh" "$MACHINE"
 BASE_URL=$(PYTHONPATH="$ROOT/src" python3 -m hunyuanocr_bench.cli profile-get --machine "$MACHINE" runtime.base_url)
 MODEL=$(PYTHONPATH="$ROOT/src" python3 -m hunyuanocr_bench.cli profile-get --machine "$MACHINE" runtime.served_model_name)
-read -r HOST PORT < <(python3 - "$BASE_URL" <<'PY'
-import sys
-from urllib.parse import urlparse
-url=urlparse(sys.argv[1])
-if url.scheme != 'http' or not url.hostname or not url.port or url.path.rstrip('/') != '/v1':
-    raise SystemExit('accuracy inference requires a local http://HOST:PORT/v1 endpoint')
-print(url.hostname, url.port)
-PY
-)
+endpoint_json=$(PYTHONPATH="$ROOT/src" python3 -m hunyuanocr_bench.cli accuracy-endpoints --machine "$MACHINE")
+HOST=$(jq -r .host <<< "$endpoint_json")
+PORTS=$(jq -r '.ports | join(",")' <<< "$endpoint_json")
+CONCURRENCY=$(jq -r .concurrency <<< "$endpoint_json")
+
+IFS=',' read -r -a accuracy_ports <<< "$PORTS"
+for port in "${accuracy_ports[@]}"; do
+    body=$(curl --noproxy '*' -fsS --max-time 10 "http://$HOST:$port/v1/models")
+    [[ "$(jq -r .data[0].id <<< "$body")" == "$MODEL" ]] \
+        || { printf 'ERROR: model mismatch on port %s\n' "$port" >&2; exit 1; }
+done
 
 mkdir -p "$OUTPUT"
 PYTHONDONTWRITEBYTECODE=1 "$PYTHON_BIN" "$ASSETS_DIR/src/HunyuanOCR/inference/vLLM/batch_infer.py" \
     --image-dir "$ASSETS_DIR/data/OmniDocBench_v1_6/images" \
     --out-dir "$OUTPUT" \
     --host "$HOST" \
-    --ports "$PORT" \
+    --ports "$PORTS" \
     --model "$MODEL" \
     --task-type doc_parse \
     --max-tokens 32768 \
     --repetition-penalty 1.08 \
-    --concurrency 1
+    --concurrency "$CONCURRENCY"
 
 PYTHONPATH="$ROOT/src" python3 -m hunyuanocr_bench.cli verify-predictions \
     --gt "$GT" \

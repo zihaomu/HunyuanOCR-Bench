@@ -86,13 +86,13 @@
       "properties": {
         "status": {"const": "PASS"},
         "protocol_id": {"const": "hunyuanocr-1.5-omnidocbench-1.6-v1"},
-        "profile_id": {"const": "full1651-c1"},
-        "sample_inventory_sha256": {"const": "344d236b31d265915b723f3106613bbbeaf37cf988db7f58b76d88cbb7c2a1b4"},
-        "images": {"const": 1651},
-        "requests": {"const": 1651},
-        "successful": {"const": 1651},
+        "profile_id": {"const": "quick9-c1"},
+        "sample_inventory_sha256": {"const": "28f59abf2efbac69a32a3914e184e63d160accb90474036b51105ec7817d72eb"},
+        "images": {"const": 9},
+        "requests": {"const": 27},
+        "successful": {"const": 27},
         "failed": {"const": 0},
-        "truncated": {"type": "integer", "minimum": 0, "maximum": 1651},
+        "truncated": {"type": "integer", "minimum": 0, "maximum": 27},
         "missing_completion_tokens": {"const": 0},
         "average_latency_seconds": {"type": "number", "exclusiveMinimum": 0},
         "page_per_second": {"type": "number", "exclusiveMinimum": 0},
@@ -104,8 +104,8 @@
             "max_tokens": {"const": 8000},
             "extra_body": {"type": "object", "required": ["top_k"], "properties": {"top_k": {"const": 1}}},
             "concurrency": {"const": 1},
-            "warmup_pages": {"const": 10},
-            "repetitions": {"const": 1},
+            "warmup_pages": {"const": 9},
+            "repetitions": {"const": 3},
             "image_data_url_mime": {"const": "image/png"}
           }
         }

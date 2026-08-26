@@ -7,7 +7,7 @@ from pathlib import Path
 
 from .accuracy import build_accuracy_report
 from .aggregate import aggregate_results
-from .config import DEFAULT_PROTOCOL, dotted_get, load_machine, load_protocol
+from .config import DEFAULT_PROTOCOL, REPOSITORY_ROOT, accuracy_endpoint_config, dotted_get, load_machine, load_protocol
 from .machine import capture_machine
 from .results import assemble_result, load_and_validate_result, write_json
 from .speed import run_speed
@@ -27,6 +27,9 @@ def build_parser() -> argparse.ArgumentParser:
     capture.add_argument("--machine", type=Path, required=True)
     capture.add_argument("--output", type=Path, required=True)
 
+    accuracy_endpoints = subparsers.add_parser("accuracy-endpoints")
+    accuracy_endpoints.add_argument("--machine", type=Path, required=True)
+
     assets = subparsers.add_parser("verify-assets")
     assets.add_argument("--assets-dir", type=Path, default=Path("assets"))
     assets.add_argument("--output", type=Path)
@@ -38,7 +41,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     speed = subparsers.add_parser("speed")
     speed.add_argument("--machine", type=Path, required=True)
-    speed.add_argument("--profile", choices=("full1651-c1", "paper930-c1"), required=True)
+    speed.add_argument("--profile", choices=("quick9-c1", "full1651-c1", "paper930-c1"), required=True)
     speed.add_argument("--image-dir", type=Path, required=True)
     speed.add_argument("--gt", type=Path)
     speed.add_argument("--sample-list", type=Path)
@@ -80,6 +83,9 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(value, ensure_ascii=False) if isinstance(value, (dict, list)) else value)
         elif args.command == "capture-machine":
             write_json(args.output, capture_machine(load_machine(args.machine)))
+        elif args.command == "accuracy-endpoints":
+            host, ports = accuracy_endpoint_config(load_machine(args.machine))
+            print(json.dumps({"host": host, "ports": ports, "concurrency": len(ports)}))
         elif args.command == "verify-assets":
             report = verify_assets(args.assets_dir, protocol)
             if args.output:
@@ -93,6 +99,9 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(report, ensure_ascii=False, sort_keys=True))
             return 0 if report["status"] == "PASS" else 1
         elif args.command == "speed":
+            profile = protocol["speed_profiles"][args.profile]
+            if not args.sample_list and profile.get("sample_list"):
+                args.sample_list = REPOSITORY_ROOT / profile["sample_list"]
             if args.profile == "paper930-c1" and not args.sample_list:
                 raise ValueError("paper930-c1 requires --sample-list; the paper's list is not publicly shipped")
             if args.profile == "full1651-c1" and not args.gt:

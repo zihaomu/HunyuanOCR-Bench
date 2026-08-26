@@ -40,9 +40,14 @@ Overall = ((1 - TextEdit) * 100 + FormulaCDM + TableTEDS) / 3
 
 ## Speed Profiles
 
-`full1651-c1` is the project leaderboard profile. It runs all public v1.6 pages
-sequentially after ten unmeasured warm-up requests. The request matches the paper:
-concurrency 1, `temperature=0`, `max_tokens=8000`, and `top_k=1`.
+`quick9-c1` is the project leaderboard speed profile. It contains nine fixed
+pages: three text, three formula, and three table cases at low, medium, and high
+complexity. Speed uses one GPU and request concurrency 1. Each case is warmed up
+once and measured three times, for 27 timed requests. The request keeps the paper's
+`temperature=0`, `max_tokens=8000`, and `top_k=1` settings.
+
+`full1651-c1` remains an extended diagnostic profile; the full 1651 pages are
+required for accuracy, not for the primary speed leaderboard.
 
 For page latency `t_i` and generated token count `c_i`:
 
@@ -56,7 +61,7 @@ Token/s = sum(c_i) / sum(t_i)
 `speed_eval_set_930.txt` is provided via `PAPER930_LIST`. The upstream docs refer
 to this file, but it is absent from the public repository tree as of the pinned
 revision. It is therefore non-publishable in protocol v1. Results from
-`full1651-c1` and `paper930-c1` must never share one ranking.
+`quick9-c1`, `full1651-c1`, and `paper930-c1` must never share one ranking.
 Token/s is diagnostic only across different models because tokenizers differ.
 
 ## Repository Flow
@@ -126,7 +131,7 @@ OMNIDOCBENCH_GIT_URL=<mirror-url> \
 The default complete run is:
 
 ```bash
-./scripts/run-all.sh machines/amd-w7900d-host01.json full1651-c1
+./scripts/run-all.sh machines/amd-w7900d-host01.json quick9-c1
 ```
 
 This performs, in order:
