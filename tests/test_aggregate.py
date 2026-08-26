@@ -54,6 +54,20 @@ class AggregateTests(unittest.TestCase):
             self.assertEqual(positions, sorted(positions))
             self.assertLess(leaderboard.index(PUBLISHED_IDS[-1]), leaderboard.index(SAMPLED_ID))
 
+            overview = (root / "results" / "README.md").read_text(encoding="utf-8")
+            self.assertIn("# Results Overview", overview)
+            self.assertIn("## Published Speed Results", overview)
+            self.assertIn("## Non-comparable Sampled References", overview)
+            self.assertIn("No complete accuracy result has been published yet", overview)
+            self.assertIn("[Speed leaderboard](../leaderboards/speed.md)", overview)
+            self.assertIn("[Structured speed results](../leaderboards/speed-results.json)", overview)
+            overview_positions = [overview.index(machine_id) for machine_id in PUBLISHED_IDS]
+            self.assertEqual(overview_positions, sorted(overview_positions))
+            self.assertLess(overview.index(PUBLISHED_IDS[-1]), overview.index(SAMPLED_ID))
+            for machine_id in PUBLISHED_IDS + [SAMPLED_ID]:
+                self.assertIn(f"[{machine_id}]({machine_id}/)", overview)
+            self.assertIn("not ranked against the table above", overview)
+
     def test_tampered_speed_summary_is_rejected(self) -> None:
         machine_id = PUBLISHED_IDS[0]
         with tempfile.TemporaryDirectory() as temporary:

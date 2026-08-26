@@ -188,6 +188,7 @@ def aggregate_results(
     if len(run_ids) != len(set(run_ids)):
         raise ValueError("duplicate run_id values in results tree")
     results.sort(key=lambda item: (-item["accuracy"]["metrics"]["overall"], item["machine_id"]))
+    results_root.mkdir(parents=True, exist_ok=True)
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "all-results.json").write_text(
         json.dumps(results, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
@@ -224,6 +225,8 @@ def aggregate_results(
     (output_dir / "speed-results.json").write_text(
         json.dumps(speed_results, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
+    published_speed = [item for item in speed_results if item["publishable"]]
+    references = [item for item in speed_results if not item["publishable"]]
 
     accuracy_lines = [
         "# Accuracy Leaderboard",
@@ -254,7 +257,7 @@ def aggregate_results(
             f"{_f(metrics['formula_cdm'], 2)} | {_f(metrics['table_teds'], 2)} | "
             f"{_f(metrics['table_teds_s'], 2)} | {_f(metrics['order_edit'], 3)} |"
         )
-    for result in (item for item in speed_results if item["publishable"]):
+    for result in published_speed:
         accelerator = result["accelerator"]
         accelerator_label = f"{accelerator['count']}× {accelerator['model']}"
         speed = result["speed"]
@@ -265,7 +268,6 @@ def aggregate_results(
             f"{_f(speed['average_latency_seconds'], 3)} | {_f(speed['latency_seconds']['p95'], 3)} | "
             f"{_f(speed['page_per_second'], 4)} | {_f(speed['token_per_second'], 1)} |"
         )
-    references = [item for item in speed_results if not item["publishable"]]
     if references:
         speed_lines.extend(
             [
@@ -290,6 +292,75 @@ def aggregate_results(
                 f"{_f(speed['page_per_second'], 4)} | {_f(speed['token_per_second'], 1)} |"
             )
     speed_lines.extend(["", "\\* Token/s is diagnostic only and is not comparable across different tokenizers."])
+
+    overview_lines = [
+        "# Results Overview",
+        "",
+        "This page summarizes the machine results currently merged into `main`. Values are generated from validated evidence in each machine directory.",
+        "",
+        "## Published Speed Results",
+        "",
+        "Rows are ordered by profile and then Page/s. Only rows with the same profile are directly comparable.",
+        "",
+        "| Machine | Accelerator | Profile | Avg latency (s)↓ | P95 (s)↓ | Page/s↑ | Token/s* |",
+        "| --- | --- | --- | ---: | ---: | ---: | ---: |",
+    ]
+    for result in published_speed:
+        accelerator = result["accelerator"]
+        accelerator_label = f"{accelerator['count']}× {accelerator['model']}"
+        speed = result["speed"]
+        overview_lines.append(
+            f"| [{result['machine_id']}]({result['machine_id']}/) | {accelerator_label} | "
+            f"{speed['profile_id']} | {_f(speed['average_latency_seconds'], 3)} | "
+            f"{_f(speed['latency_seconds']['p95'], 3)} | {_f(speed['page_per_second'], 4)} | "
+            f"{_f(speed['token_per_second'], 1)} |"
+        )
+    if not published_speed:
+        overview_lines.append("| - | - | - | - | - | - | - |")
+    if references:
+        overview_lines.extend(
+            [
+                "",
+                "## Non-comparable Sampled References",
+                "",
+                "These samples are shown for visibility only. They do not use a publishable leaderboard profile and are not ranked against the table above.",
+                "",
+                "| Machine | Accelerator | Sample | Avg latency (s) | P95 (s) | Page/s | Token/s* |",
+                "| --- | --- | --- | ---: | ---: | ---: | ---: |",
+            ]
+        )
+        for result in references:
+            accelerator = result["accelerator"]
+            accelerator_label = f"{accelerator['count']}× {accelerator['model']}"
+            speed = result["speed"]
+            overview_lines.append(
+                f"| [{result['machine_id']}]({result['machine_id']}/) | {accelerator_label} | "
+                f"{speed['profile_id']} | {_f(speed['average_latency_seconds'], 3)} | "
+                f"{_f(speed['latency_seconds']['p95'], 3)} | {_f(speed['page_per_second'], 4)} | "
+                f"{_f(speed['token_per_second'], 1)} |"
+            )
+    overview_lines.extend(["", "## Accuracy Status", ""])
+    if results:
+        overview_lines.append(
+            f"{len(results)} complete accuracy result(s) are available in the [accuracy leaderboard](../leaderboards/accuracy.md)."
+        )
+    else:
+        overview_lines.append(
+            "No complete accuracy result has been published yet. Accuracy requires full 1,651-page inference and the official OmniDocBench evaluator."
+        )
+    overview_lines.extend(
+        [
+            "",
+            "## Detailed Outputs",
+            "",
+            "- [Speed leaderboard](../leaderboards/speed.md)",
+            "- [Structured speed results](../leaderboards/speed-results.json)",
+            "- [Accuracy leaderboard](../leaderboards/accuracy.md)",
+            "",
+            "\\* Token/s is diagnostic only and is not comparable across different tokenizers.",
+        ]
+    )
     (output_dir / "accuracy.md").write_text("\n".join(accuracy_lines) + "\n", encoding="utf-8")
     (output_dir / "speed.md").write_text("\n".join(speed_lines) + "\n", encoding="utf-8")
+    (results_root / "README.md").write_text("\n".join(overview_lines) + "\n", encoding="utf-8")
     return results

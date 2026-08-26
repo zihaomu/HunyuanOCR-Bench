@@ -175,10 +175,11 @@ After merging accepted result branches:
 
 ```bash
 ./scripts/aggregate.sh
-git add leaderboards/
+git add leaderboards/ results/README.md
 ```
 
-The generated accuracy and speed tables are in [leaderboards](leaderboards/).
+The generated [results overview](results/) links each machine's evidence and keeps
+non-comparable samples separate. Detailed accuracy and speed tables are in [leaderboards](leaderboards/).
 
 ## Development Checks
 
