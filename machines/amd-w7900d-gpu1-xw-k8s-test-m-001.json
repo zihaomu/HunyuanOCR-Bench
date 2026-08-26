@@ -1,0 +1,32 @@
+{
+  "machine_id": "amd-w7900d-gpu1-xw-k8s-test-m-001",
+  "vendor": "amd",
+  "accelerator": {
+    "model": "AMD Radeon PRO W7900D (gfx1100)",
+    "count": 1,
+    "memory_gib_each": 48
+  },
+  "runtime": {
+    "framework": "vLLM",
+    "framework_version": "0.27.0",
+    "inference_method": "ar",
+    "base_url": "http://127.0.0.1:18016/v1",
+    "served_model_name": "tencent/HunyuanOCR",
+    "container_image": "hunyuanocr-base:rocm7.2.4-v0",
+    "container_image_digest": "sha256:83fef91f42e0306dbf81d2d225086234e7fbc770eeba16a02a9a11f57e17d335",
+    "precision": "bfloat16",
+    "tensor_parallel": 1,
+    "physical_gpu": 1,
+    "max_model_len": 131072,
+    "gpu_memory_utilization": 0.9,
+    "accuracy_replica_gpus": [1, 2],
+    "accuracy_ports": [18016, 18017]
+  },
+  "software": {
+    "os": "Ubuntu 24.04.4 LTS; kernel 6.8.0-134-generic",
+    "driver": "amdgpu 6.16.13",
+    "compute_stack": "ROCm 7.2.4; HIP 7.2.53211",
+    "pytorch": "2.10.0+rocm7.2.4.git3d3aa833"
+  },
+  "notes": "Speed is measured on physical GPU1 only with one visible GPU, TP=1, and request concurrency=1. Accuracy is not a speed measurement and is distributed over two independent TP=1 replicas on physical GPU1 and GPU2 (ports 18016 and 18017). GPU0 is excluded because it has a persistent competing workload."
+}
