@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+  "dataset_pages": 1651,
+  "metrics": {
+    "overall": 95.61830948815093,
+    "text_edit": 0.034876662469354065,
+    "formula_cdm": 94.70574356063295,
+    "table_teds": 95.63685115075518,
+    "table_teds_s": 96.72131824669725,
+    "order_edit": 0.1248476888083317
+  },
+  "paper_reference": {
+    "overall": 94.74,
+    "text_edit": 0.039,
+    "formula_cdm": 94.5,
+    "table_teds": 93.67,
+    "table_teds_s": 94.71,
+    "order_edit": 0.129
+  },
+  "delta_from_paper": {
+    "overall": 0.878309,
+    "text_edit": -0.004123,
+    "formula_cdm": 0.205744,
+    "table_teds": 1.966851,
+    "table_teds_s": 2.011318,
+    "order_edit": -0.004152
+  },
+  "machine_id": "amd-r9700-workstation-sh",
+  "generated_at": "2026-08-27T04:01:24.332082+00:00",
+  "source": {
+    "path": "/home/zihaomu/bigssd_workspace/hunyuan_ocr_workspace/HunyuanOCR-Bench/work/amd-r9700-workstation-sh-20260827T014842Z-ar/evaluator-summary.json",
+    "sha256": "4fff468e9db10ec3921a0cf2f0fabd88bdaae4150e69405343af43b999398ab3"
+  }
+}
