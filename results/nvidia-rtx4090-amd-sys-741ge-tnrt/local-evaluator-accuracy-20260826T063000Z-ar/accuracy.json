@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+  "dataset_pages": 1651,
+  "metrics": {
+    "overall": 95.44368119373975,
+    "text_edit": 0.036132001175410454,
+    "formula_cdm": 94.65107433472103,
+    "table_teds": 95.29316936403929,
+    "table_teds_s": 96.3850713990935,
+    "order_edit": 0.12724741331438774
+  },
+  "paper_reference": {
+    "overall": 94.74,
+    "text_edit": 0.039,
+    "formula_cdm": 94.5,
+    "table_teds": 93.67,
+    "table_teds_s": 94.71,
+    "order_edit": 0.129
+  },
+  "delta_from_paper": {
+    "overall": 0.703681,
+    "text_edit": -0.002868,
+    "formula_cdm": 0.151074,
+    "table_teds": 1.623169,
+    "table_teds_s": 1.675071,
+    "order_edit": -0.001753
+  },
+  "machine_id": "nvidia-rtx4090-amd-sys-741ge-tnrt",
+  "generated_at": "2026-08-26T13:58:34.616912+00:00",
+  "source": {
+    "path": "work/nvidia-rtx4090-amd-sys-741ge-tnrt-20260826T063000Z-ar/evaluation/predictions_quick_match_run_summary.json",
+    "sha256": "251207ea489f806251acc7f3563069a72e7885a7a0951059df27f1726edb7559"
+  }
+}

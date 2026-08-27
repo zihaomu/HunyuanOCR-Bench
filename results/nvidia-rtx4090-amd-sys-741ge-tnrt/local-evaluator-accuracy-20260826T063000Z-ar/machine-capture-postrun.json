@@ -1,0 +1,118 @@
+{
+  "captured_at": "2026-08-26T14:15:08.081015+00:00",
+  "declared_profile": {
+    "machine_id": "nvidia-rtx4090-amd-sys-741ge-tnrt",
+    "vendor": "nvidia",
+    "accelerator": {
+      "model": "NVIDIA GeForce RTX 4090",
+      "count": 1,
+      "memory_gib_each": 48.0
+    },
+    "runtime": {
+      "framework": "vLLM",
+      "framework_version": "0.26.1rc1.dev457+gc810e5ee9",
+      "inference_method": "ar",
+      "base_url": "http://127.0.0.1:18081/v1",
+      "served_model_name": "tencent/HunyuanOCR",
+      "container_image": "ghcr.io/inferstation/vllm-cuda-4090:latest",
+      "container_image_digest": "sha256:6877023dee3a2456e00f468813607fd4ec21cd92c6386e5433e2f7422bf087a8",
+      "precision": "bfloat16",
+      "tensor_parallel": 1,
+      "physical_gpu": 0,
+      "max_model_len": 131072,
+      "gpu_memory_utilization": 0.9,
+      "accuracy_replica_gpus": [
+        0,
+        1
+      ],
+      "accuracy_ports": [
+        18081,
+        18082
+      ]
+    },
+    "software": {
+      "os": "Ubuntu 22.04, kernel 6.8.0-136-generic",
+      "driver": "NVIDIA 590.48.01",
+      "compute_stack": "CUDA 13.0",
+      "pytorch": "2.13.0+cu130"
+    },
+    "notes": "Speed is measured on physical GPU0 only with one visible GPU, TP=1, request concurrency=1, max_model_len=131072, max_num_batched_tokens=131072, and gpu_memory_utilization=0.9. Accuracy is not a speed measurement and is distributed over two independent TP=1 replicas on physical GPU0 and GPU1 (ports 18081 and 18082). Model, data, vLLM caches, logs, and benchmark work products reside under /home/zihaomu/bigssd/hunyuan_ocr_workspace/."
+  },
+  "host": {
+    "hostname": "amd-SYS-741GE-TNRT",
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+    "kernel": "6.8.0-136-generic",
+    "architecture": "x86_64",
+    "python": "3.11.12",
+    "cpu_count": 144
+  },
+  "commands": {
+    "nvidia_smi": {
+      "available": true,
+      "command": [
+        "nvidia-smi",
+        "--query-gpu=name,uuid,memory.total,driver_version,vbios_version",
+        "--format=csv,noheader"
+      ],
+      "returncode": 0,
+      "stdout": "NVIDIA GeForce RTX 4090, GPU-26231298-cdb4-0160-6dc6-e25f55185312, 49140 MiB, 590.48.01, 95.02.3C.00.02\nNVIDIA GeForce RTX 4090, GPU-cc488d0d-35f5-943b-5287-834a3a8a1b17, 49140 MiB, 590.48.01, 95.02.3C.00.02",
+      "stdout_bytes": 208,
+      "stdout_sha256": "c5c4ca0c94894d8a83c01f6d132ba90d6551a6bf30c92afc3964c73108c06829",
+      "stdout_truncated": false,
+      "stderr": "",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_truncated": false
+    },
+    "rocm_smi": {
+      "available": false,
+      "command": [
+        "rocm-smi",
+        "--showproductname",
+        "--showuniqueid",
+        "--showmeminfo",
+        "vram"
+      ]
+    },
+    "rocminfo": {
+      "available": false,
+      "command": [
+        "rocminfo"
+      ]
+    },
+    "docker": {
+      "available": true,
+      "command": [
+        "docker",
+        "version",
+        "--format",
+        "{{json .}}"
+      ],
+      "returncode": 0,
+      "stdout": "{\"Client\":{\"Platform\":{\"Name\":\"Docker Engine - Community\"},\"Version\":\"28.3.3\",\"ApiVersion\":\"1.51\",\"DefaultAPIVersion\":\"1.51\",\"GitCommit\":\"980b856\",\"GoVersion\":\"go1.24.5\",\"Os\":\"linux\",\"Arch\":\"amd64\",\"BuildTime\":\"Fri Jul 25 11:34:04 2025\",\"Context\":\"default\"},\"Server\":{\"Platform\":{\"Name\":\"Docker Engine - Community\"},\"Components\":[{\"Name\":\"Engine\",\"Version\":\"28.3.3\",\"Details\":{\"ApiVersion\":\"1.51\",\"Arch\":\"amd64\",\"BuildTime\":\"Fri Jul 25 11:34:04 2025\",\"Experimental\":\"false\",\"GitCommit\":\"bea959c\",\"GoVersion\":\"go1.24.5\",\"KernelVersion\":\"6.8.0-136-generic\",\"MinAPIVersion\":\"1.24\",\"Os\":\"linux\"}},{\"Name\":\"containerd\",\"Version\":\"1.7.27\",\"Details\":{\"GitCommit\":\"05044ec0a9a75232cad458027ca83437aae3f4da\"}},{\"Name\":\"runc\",\"Version\":\"1.2.5\",\"Details\":{\"GitCommit\":\"v1.2.5-0-g59923ef\"}},{\"Name\":\"docker-init\",\"Version\":\"0.19.0\",\"Details\":{\"GitCommit\":\"de40ad0\"}}],\"Version\":\"28.3.3\",\"ApiVersion\":\"1.51\",\"MinAPIVersion\":\"1.24\",\"GitCommit\":\"bea959c\",\"GoVersion\":\"go1.24.5\",\"Os\":\"linux\",\"Arch\":\"amd64\",\"KernelVersion\":\"6.8.0-136-generic\",\"BuildTime\":\"2025-07-25T11:34:04.000000000+00:00\"}}",
+      "stdout_bytes": 1079,
+      "stdout_sha256": "f2bdc59919131929bb145a6554d5d13a763d80ce183fb71c02ee694833448c4d",
+      "stdout_truncated": false,
+      "stderr": "",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_truncated": false
+    },
+    "git": {
+      "available": true,
+      "command": [
+        "git",
+        "version"
+      ],
+      "returncode": 0,
+      "stdout": "git version 2.34.1",
+      "stdout_bytes": 19,
+      "stdout_sha256": "30279da57eb04a496cb207bc2f7c7e04d9c94788be5bc68824e6727e283b264b",
+      "stdout_truncated": false,
+      "stderr": "",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_truncated": false
+    }
+  }
+}

@@ -4,9 +4,9 @@ Machine branch: `machine/nvidia-rtx4090-amd-sys-741ge-tnrt`
 
 ## Interim Speed Result
 
-The `quick9-c1` speed benchmark is complete and passed. Accuracy is not included
-in this interim publication: full inference over all 1,651 OmniDocBench v1.6
-pages and the official evaluator must finish before accuracy is published.
+The `quick9-c1` speed benchmark is complete and passed. Canonical accuracy is not
+included in this interim publication: the protocol-pinned evaluator image must
+be used before accuracy can enter the canonical leaderboard.
 
 | Metric | Result |
 | --- | ---: |
@@ -52,3 +52,18 @@ Evidence SHA-256:
 speed.json          6acb979c721d711df640f4aa60b1904942314760837756f1c261421f8af4e62f
 speed-records.jsonl 5ba466c3a2f7311bfb527546951abdd2c8a509c6283b1a2802d0357160b7a62c
 ```
+
+## Local-Evaluator Accuracy
+
+A complete 1,651-page accuracy evaluation is available as
+[local-evaluator evidence](local-evaluator-accuracy-20260826T063000Z-ar/README.md).
+
+| Status | Pages | Overall↑ | TextEdit↓ | FormulaCDM↑ | TableTEDS↑ | TableTEDS_S↑ | OrderEdit↓ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| PASS_LOCAL_EVALUATOR | 1,651 | 95.443681 | 0.036132 | 94.651074 | 95.293169 | 96.385071 | 0.127247 |
+
+CDM and TEDS completed with zero errors, exceptions, or timeouts.
+
+This accuracy run reused the speed-test image with a version-aligned local
+evaluator toolchain, not the protocol-pinned evaluator image. It is therefore
+published as non-canonical evidence and is excluded from leaderboard aggregation.
