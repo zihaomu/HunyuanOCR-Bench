@@ -9,6 +9,7 @@ Only rows with the same speed profile are directly comparable. Page/s is the pri
 | nvidia-rtx4090-amd-sys-741ge-tnrt | 1× NVIDIA GeForce RTX 4090 | vLLM | ar | quick9-c1 | 1.682 | 4.569 | 0.5944 | 392.7 |
 | amd-w7900d-gpu1-xw-k8s-test-m-001 | 1× AMD Radeon PRO W7900D (gfx1100) | vLLM | ar | quick9-c1 | 4.662 | 21.929 | 0.2145 | 90.7 |
 | nvidia-gb10-spark2-shanghai | 1× NVIDIA GB10 | vLLM | ar | quick9-c1 | 5.397 | 15.168 | 0.1853 | 122.0 |
+| amd-r9700-workstation-sh | 1× AMD Radeon AI PRO R9700 (gfx1201) | vLLM | ar | quick9-c1 | 7.346 | 21.013 | 0.1361 | 89.4 |
 
 ## Non-comparable References
 

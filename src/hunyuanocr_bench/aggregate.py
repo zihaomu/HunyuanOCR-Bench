@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from .config import load_json, load_machine, load_protocol, sha256_file
+from .metrics import normalize_accuracy
 from .results import load_and_validate_result
 from .speed import summarize_speed
 
@@ -171,6 +172,95 @@ def _load_sampled_speed(
     }
 
 
+def _load_local_accuracy(
+    path: Path, results_root: Path, protocol: dict[str, Any]
+) -> dict[str, Any]:
+    manifest = load_json(path)
+    machine_id = path.parents[1].name
+    machine = _machine_for_result(results_root, machine_id)
+    expected_manifest = {
+        "status": "PASS_LOCAL_EVALUATOR",
+        "canonical": False,
+        "protocol_id": protocol["protocol_id"],
+        "dataset_pages": protocol["accuracy"]["expected_pages"],
+        "evaluator_source_revision": protocol["evaluator"]["revision"],
+        "config_sha256": protocol["evaluator"]["config_sha256"],
+        "gt_sha256": protocol["dataset"]["gt_sha256"],
+        "protocol_pinned_evaluator_image": protocol["evaluator"]["image"],
+    }
+    for key, value in expected_manifest.items():
+        if manifest.get(key) != value:
+            raise ValueError(f"local accuracy manifest has invalid {key}: {path}")
+    directory_prefix = "local-evaluator-accuracy-"
+    directory_name = path.parent.name
+    if not directory_name.startswith(directory_prefix) or manifest.get("run_id") != f"{machine_id}-{directory_name.removeprefix(directory_prefix)}":
+        raise ValueError(f"local accuracy run_id does not match result path: {path}")
+    if (path.parent / "result.json").exists():
+        raise ValueError(f"local accuracy directory must not contain result.json: {path.parent}")
+
+    expected_artifacts = {
+        "accuracy.json",
+        "assets-verification.json",
+        "evaluator-metric-result.json",
+        "evaluator-run-summary.json",
+        "evaluator-runtime-environment.json",
+        "evaluator-stage-execution.json",
+        "machine-capture-postrun.json",
+        "machine-capture-run-start.json",
+        "machine.json",
+        "prediction-verification.json",
+    }
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, dict) or set(artifacts) != expected_artifacts:
+        raise ValueError(f"local accuracy manifest has an invalid artifact inventory: {path}")
+    for filename, expected_sha256 in artifacts.items():
+        artifact_path = path.parent / filename
+        if expected_sha256 != sha256_file(artifact_path):
+            raise ValueError(f"local accuracy artifact SHA-256 mismatch: {artifact_path}")
+    if load_json(path.parent / "machine.json") != machine:
+        raise ValueError(f"local accuracy machine artifact does not match machine profile: {path}")
+    for filename in ("assets-verification.json", "prediction-verification.json"):
+        gate_path = path.parent / filename
+        if load_json(gate_path).get("status") != "PASS":
+            raise ValueError(f"local accuracy gate is not PASS: {gate_path}")
+
+    accuracy_path = path.parent / "accuracy.json"
+    accuracy = load_json(accuracy_path)
+    expected_accuracy = {
+        "status": "PASS",
+        "protocol_id": protocol["protocol_id"],
+        "dataset_pages": protocol["accuracy"]["expected_pages"],
+        "machine_id": machine_id,
+        "paper_reference": protocol["paper_reference"]["accuracy"],
+    }
+    for key, value in expected_accuracy.items():
+        if accuracy.get(key) != value:
+            raise ValueError(f"local accuracy result has invalid {key}: {accuracy_path}")
+    metrics = accuracy.get("metrics")
+    if not isinstance(metrics, dict) or normalize_accuracy(metrics).as_dict() != metrics:
+        raise ValueError(f"local accuracy metrics are invalid or not normalized: {accuracy_path}")
+    source = accuracy.get("source")
+    if not isinstance(source, dict) or source.get("sha256") != artifacts["evaluator-run-summary.json"]:
+        raise ValueError(f"local accuracy source does not match evaluator summary: {accuracy_path}")
+
+    actual_evaluator = manifest.get("actual_evaluator_base")
+    if not isinstance(actual_evaluator, dict) or not actual_evaluator.get("repo_digest"):
+        raise ValueError(f"local accuracy manifest is missing evaluator runtime: {path}")
+    if actual_evaluator["repo_digest"] == protocol["evaluator"]["image"]:
+        raise ValueError(f"local accuracy evidence unexpectedly used the canonical image: {path}")
+    return {
+        "kind": "local-evaluator",
+        "canonical": False,
+        "machine_id": machine_id,
+        "run_id": manifest["run_id"],
+        "relative_dir": path.parent.relative_to(results_root).as_posix(),
+        "accelerator": machine["accelerator"],
+        "runtime": machine["runtime"],
+        "accuracy": accuracy,
+        "actual_evaluator_base": actual_evaluator,
+    }
+
+
 def aggregate_results(
     results_root: Path, output_dir: Path, protocol: dict[str, Any] | None = None
 ) -> list[dict[str, Any]]:
@@ -227,6 +317,12 @@ def aggregate_results(
     )
     published_speed = [item for item in speed_results if item["publishable"]]
     references = [item for item in speed_results if not item["publishable"]]
+
+    local_accuracy_paths = (
+        sorted(results_root.glob("*/local-evaluator-accuracy-*/manifest.json"))
+        if results_root.exists() else []
+    )
+    local_accuracy = [_load_local_accuracy(path, results_root, protocol) for path in local_accuracy_paths]
 
     accuracy_lines = [
         "# Accuracy Leaderboard",
@@ -324,9 +420,24 @@ def aggregate_results(
     overview_lines.extend(["", "## Accuracy Status", ""])
     if results:
         overview_lines.append(
-            f"{len(results)} complete accuracy result(s) are available in the [accuracy leaderboard](../leaderboards/accuracy.md)."
+            f"{len(results)} canonical accuracy result(s) are available in the [accuracy leaderboard](../leaderboards/accuracy.md):"
         )
-    else:
+        overview_lines.append("")
+        for result in results:
+            metrics = result["accuracy"]["metrics"]
+            overview_lines.append(
+                f"- [{result['machine_id']}]({result['machine_id']}/{result['run_id']}/result.json): "
+                f"Overall {_f(metrics['overall'], 6)}"
+            )
+    if local_accuracy:
+        overview_lines.extend(["", f"{len(local_accuracy)} complete local-evaluator result(s):", ""])
+        for result in local_accuracy:
+            metrics = result["accuracy"]["metrics"]
+            overview_lines.append(
+                f"- [{result['machine_id']}]({result['relative_dir']}/README.md): "
+                f"Overall {_f(metrics['overall'], 6)} (non-canonical evaluator runtime)"
+            )
+    if not results and not local_accuracy:
         overview_lines.append(
             "No complete accuracy result has been published yet. Accuracy requires full 1,651-page inference and the official OmniDocBench evaluator."
         )

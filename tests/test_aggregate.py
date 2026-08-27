@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 
 from hunyuanocr_bench.aggregate import aggregate_results
+from hunyuanocr_bench.config import load_protocol
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,6 +35,10 @@ class AggregateTests(unittest.TestCase):
             root = Path(temporary)
             for machine_id in PUBLISHED_IDS + [SAMPLED_ID]:
                 self._copy_machine_result(root, machine_id)
+            for local_accuracy in (root / "results").glob(
+                "*/local-evaluator-accuracy-*"
+            ):
+                shutil.rmtree(local_accuracy)
             output_dir = root / "leaderboards"
             self.assertEqual(aggregate_results(root / "results", output_dir), [])
 
@@ -69,6 +74,72 @@ class AggregateTests(unittest.TestCase):
                 self.assertIn(f"[{machine_id}]({machine_id}/)", overview)
             self.assertEqual(overview.count("| Machine | Accelerator | Profile |"), 1)
             self.assertNotIn("not ranked against the table above", overview)
+
+    def test_canonical_and_local_accuracy_are_labeled_separately(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self._copy_machine_result(root, "amd-r9700-workstation-sh")
+            self._copy_machine_result(root, "nvidia-rtx4090-amd-sys-741ge-tnrt")
+
+            results = aggregate_results(root / "results", root / "leaderboards")
+
+            self.assertEqual(
+                [result["machine_id"] for result in results],
+                ["amd-r9700-workstation-sh"],
+            )
+            accuracy = (root / "leaderboards" / "accuracy.md").read_text(encoding="utf-8")
+            self.assertIn("amd-r9700-workstation-sh", accuracy)
+            self.assertNotIn("nvidia-rtx4090-amd-sys-741ge-tnrt", accuracy)
+            overview = (root / "results" / "README.md").read_text(encoding="utf-8")
+            self.assertIn("1 canonical accuracy result(s)", overview)
+            self.assertIn("1 complete local-evaluator result(s)", overview)
+            self.assertIn("Overall 95.618309", overview)
+            self.assertIn("Overall 95.443681 (non-canonical evaluator runtime)", overview)
+
+    def test_tampered_local_accuracy_artifact_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            machine_id = "nvidia-rtx4090-amd-sys-741ge-tnrt"
+            self._copy_machine_result(root, machine_id)
+            accuracy_path = next(
+                (root / "results" / machine_id).glob("local-evaluator-accuracy-*/accuracy.json")
+            )
+            accuracy = json.loads(accuracy_path.read_text(encoding="utf-8"))
+            accuracy["metrics"]["overall"] = 99
+            accuracy_path.write_text(json.dumps(accuracy), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "artifact SHA-256 mismatch"):
+                aggregate_results(root / "results", root / "leaderboards")
+
+    def test_root_accuracy_comparison_matches_evidence(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        protocol = load_protocol()
+        rtx_accuracy = next(
+            (ROOT / "results" / "nvidia-rtx4090-amd-sys-741ge-tnrt").glob(
+                "local-evaluator-accuracy-*/accuracy.json"
+            )
+        )
+        r9700_accuracy = next(
+            (ROOT / "results" / "amd-r9700-workstation-sh").glob("*/accuracy.json")
+        )
+        sources = [
+            protocol["paper_reference"]["accuracy"],
+            json.loads(rtx_accuracy.read_text(encoding="utf-8"))["metrics"],
+            json.loads(r9700_accuracy.read_text(encoding="utf-8"))["metrics"],
+        ]
+        rows = {
+            "Overall↑": ("overall", (2, 6, 6)),
+            "TextEdit↓": ("text_edit", (3, 6, 6)),
+            "FormulaCDM↑": ("formula_cdm", (2, 6, 6)),
+            "TableTEDS↑": ("table_teds", (2, 6, 6)),
+            "TableTEDS_S↑": ("table_teds_s", (2, 6, 6)),
+            "OrderEdit↓": ("order_edit", (3, 6, 6)),
+        }
+        for label, (key, digits) in rows.items():
+            values = [f"{source[key]:.{places}f}" for source, places in zip(sources, digits)]
+            self.assertIn(f"| {label} | {' | '.join(values)} |", readme)
+        self.assertIn("results/nvidia-rtx4090-amd-sys-741ge-tnrt/SERVING.md", readme)
+        self.assertIn("results/amd-r9700-workstation-sh/SERVING.md", readme)
 
     def test_tampered_speed_summary_is_rejected(self) -> None:
         machine_id = PUBLISHED_IDS[0]

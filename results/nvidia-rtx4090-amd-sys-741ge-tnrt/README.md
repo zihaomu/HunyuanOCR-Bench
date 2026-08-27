@@ -2,6 +2,8 @@
 
 Machine branch: `machine/nvidia-rtx4090-amd-sys-741ge-tnrt`
 
+[Serving configuration](SERVING.md)
+
 ## Interim Speed Result
 
 The `quick9-c1` speed benchmark is complete and passed. Canonical accuracy is not
