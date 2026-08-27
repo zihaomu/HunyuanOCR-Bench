@@ -1,0 +1,32 @@
+{
+  "machine_id": "amd-r9700-workstation-sh",
+  "vendor": "amd",
+  "accelerator": {
+    "model": "AMD Radeon AI PRO R9700 (gfx1201)",
+    "count": 1,
+    "memory_gib_each": 32
+  },
+  "runtime": {
+    "framework": "vLLM",
+    "framework_version": "0.1.dev1+g3775d5fca",
+    "inference_method": "ar",
+    "base_url": "http://127.0.0.1:18016/v1",
+    "served_model_name": "tencent/HunyuanOCR",
+    "container_image": "ghcr.io/inferstation/vllm-rocm-r9700-main",
+    "container_image_digest": "sha256:2d3a6275b1000cc9dce4c105dae899edd95d77875ede0c4d5d9b9c53a29faaf1",
+    "precision": "bfloat16",
+    "tensor_parallel": 1,
+    "physical_gpu": 0,
+    "max_model_len": 131072,
+    "gpu_memory_utilization": 0.9,
+    "accuracy_replica_gpus": [2, 3],
+    "accuracy_ports": [18017, 18018]
+  },
+  "software": {
+    "os": "Ubuntu 24.04.3 LTS; Linux 7.0.0-28-generic",
+    "driver": "amdgpu 7.0.0-28-generic",
+    "compute_stack": "ROCm 7.14; HIP 7.14.60850",
+    "pytorch": "2.13.0a0+rocm7.14.0a20260612"
+  },
+  "notes": "4x AMD Radeon AI PRO R9700 (gfx1201, RDNA4, 32 GiB) shared host. Served with vLLM in a locally patched derivative of ghcr.io/inferstation/vllm-rocm-r9700-main (digest above): the base image ships transformers 5.13.0 while the bundled vLLM hunyuan_vl image processor still calls the transformers 4.x AutoImageProcessor.register(str, class) API, which aborts model-architecture inspection; the one-line registration was ported to the transformers 5.x config-class API (HF_HUB_OFFLINE=1, --trust-remote-code). Speed is measured on a single GPU (HIP index 0) with one visible GPU, TP=1, request concurrency=1, torch.compile enabled. Accuracy is not a speed measurement: it is distributed over two independent TP=1 enforce-eager replicas on HIP indices 3 (port 18017) and 2 (port 18018) driven with multi-stream client concurrency for throughput; enforce-eager avoids per-image-shape recompilation across the 1651 variable-resolution pages. HIP index 1 was excluded due to a competing workload. Generation parameters match the protocol (max_tokens=32768, repetition_penalty=1.08, temperature=0, top_k=-1) with the pinned batch_infer streaming repetition guard."
+}
