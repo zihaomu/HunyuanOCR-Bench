@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0",
+  "status": "PASS",
+  "run_id": "amd-w7900d-gpu1-xw-k8s-test-m-001-20260826-quick9-c1-r1",
+  "created_at": "2026-08-27T01:37:23.512964+00:00",
+  "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+  "protocol_revision": "2ff5d7eed19b2d18b41e1ad4d31c6b673256c502",
+  "machine_id": "amd-w7900d-gpu1-xw-k8s-test-m-001",
+  "vendor": "amd",
+  "accelerator": {
+    "model": "AMD Radeon PRO W7900D (gfx1100)",
+    "count": 1,
+    "memory_gib_each": 48
+  },
+  "runtime": {
+    "framework": "vLLM",
+    "framework_version": "0.27.0",
+    "inference_method": "ar",
+    "base_url": "http://127.0.0.1:18016/v1",
+    "served_model_name": "tencent/HunyuanOCR",
+    "container_image": "hunyuanocr-base:rocm7.2.4-v0",
+    "container_image_digest": "sha256:83fef91f42e0306dbf81d2d225086234e7fbc770eeba16a02a9a11f57e17d335",
+    "precision": "bfloat16",
+    "tensor_parallel": 1,
+    "physical_gpu": 1,
+    "max_model_len": 131072,
+    "gpu_memory_utilization": 0.9,
+    "accuracy_replica_gpus": [
+      1,
+      2
+    ],
+    "accuracy_ports": [
+      18016,
+      18017
+    ]
+  },
+  "model": {
+    "name": "HunyuanOCR-1.5",
+    "type": "End2End Expert OCR Models",
+    "size": "1B",
+    "repository": "Tencent-Hunyuan/HunyuanOCR",
+    "code_revision": "c55965d3da1e6f41987abec8068f2e70851318bc",
+    "weights_repository": "tencent/HunyuanOCR",
+    "weights_revision": "449e7d471a8a1ef5bd5d652e4881183d7252cbc7"
+  },
+  "dataset": {
+    "name": "OmniDocBench v1.6",
+    "repository": "opendatalab/OmniDocBench",
+    "revision": "d386947f7fc3bafdcd756c8485845a2f43a19875",
+    "expected_files": 1659,
+    "expected_images": 1651,
+    "gt_file": "OmniDocBench.json",
+    "gt_bytes": 42208096,
+    "gt_sha256": "a45cd84b04ad8b793e775089640e6b681209abea33ead54c1828ddca35fae496",
+    "coverage": {
+      "subsets": {
+        "v1.5": 1355,
+        "equation_hard": 100,
+        "layout_hard": 99,
+        "table_hard": 97
+      },
+      "languages": 5,
+      "document_types": 10,
+      "layouts": 5
+    }
+  },
+  "evaluator": {
+    "repository": "opendatalab/OmniDocBench",
+    "revision": "147cd5ac9472002f5751221d390bf00abdbc0d2f",
+    "image": "ghcr.io/zeng-weijun/omnidocbench-eval@sha256:6116ad72172e763b5c43e963d5efebf2093f2362b975f58156ce4f6c9142e617",
+    "config": "protocol/omnidocbench-v1.6-end2end.yaml",
+    "config_sha256": "9ecdab12fa28c51cfcbac74cc9d701f8114b92fe628829453298a4c5693d5381"
+  },
+  "accuracy": {
+    "status": "PASS",
+    "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+    "dataset_pages": 1651,
+    "metrics": {
+      "overall": 46.12849276383994,
+      "text_edit": 0.4436741827883067,
+      "formula_cdm": 35.6869110672718,
+      "table_teds": 47.065985503078664,
+      "table_teds_s": 47.84916879585398,
+      "order_edit": 0.459062850195266
+    },
+    "paper_reference": {
+      "overall": 94.74,
+      "text_edit": 0.039,
+      "formula_cdm": 94.5,
+      "table_teds": 93.67,
+      "table_teds_s": 94.71,
+      "order_edit": 0.129
+    },
+    "delta_from_paper": {
+      "overall": -48.611507,
+      "text_edit": 0.404674,
+      "formula_cdm": -58.813089,
+      "table_teds": -46.604014,
+      "table_teds_s": -46.860831,
+      "order_edit": 0.330063
+    },
+    "machine_id": "amd-w7900d-gpu1-xw-k8s-test-m-001",
+    "generated_at": "2026-08-27T01:37:23.381904+00:00",
+    "source": {
+      "path": "/home/zihaomu/bigssd/github_project/HunyuanOCR-Bench/work/amd-w7900d-gpu1-xw-k8s-test-m-001-20260826-quick9-c1-r1/evaluator-summary.json",
+      "sha256": "f00706f67ff663cdb701d3dbe640fb85c28642e61667339120178c9c913fc33f"
+    }
+  },
+  "speed": {
+    "status": "PASS",
+    "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+    "profile_id": "quick9-c1",
+    "sample_inventory_sha256": "28f59abf2efbac69a32a3914e184e63d160accb90474036b51105ec7817d72eb",
+    "images": 9,
+    "requests": 27,
+    "successful": 27,
+    "failed": 0,
+    "truncated": 0,
+    "missing_completion_tokens": 0,
+    "wall_seconds": 125.922038,
+    "request_seconds_sum": 125.8793,
+    "average_latency_seconds": 4.662196,
+    "page_per_second": 0.214491,
+    "wall_page_per_second": 0.214418,
+    "completion_tokens": 11418,
+    "token_per_second": 90.7059,
+    "latency_seconds": {
+      "mean": 4.662196,
+      "p50": 2.968424,
+      "p90": 21.923577,
+      "p95": 21.928563,
+      "p99": 21.939639,
+      "min": 0.237525,
+      "max": 21.939639
+    },
+    "parameters": {
+      "temperature": 0.0,
+      "max_tokens": 8000,
+      "extra_body": {
+        "top_k": 1
+      },
+      "base_url": "http://127.0.0.1:18016/v1",
+      "model": "tencent/HunyuanOCR",
+      "concurrency": 1,
+      "warmup_pages": 9,
+      "repetitions": 3,
+      "image_data_url_mime": "image/png"
+    }
+  },
+  "artifacts": {
+    "accuracy_sha256": "bae9ae01f7efd04e76343a6c878f313296684b14a635c7a203742f0122e4cf8c",
+    "speed_sha256": "e041d22904efefda9398edfac676d632026a646f0f32c5701ee22a01a828d4ba",
+    "machine_capture_sha256": "d9acbf32c1fedb33aa1f1a226b92b2495c5b8809c2e1a0992bd1c90a3a16636e",
+    "assets_verification_sha256": "2a3ea3144bd3d984256536e22267243a91614c975bf0bde54cad0582e7cb88ce",
+    "prediction_verification_sha256": "59140901445ff2bc8448051fcf918829fdf6bdb08d072cd7b431627524a68b0e",
+    "evaluator_summary_sha256": "f00706f67ff663cdb701d3dbe640fb85c28642e61667339120178c9c913fc33f",
+    "speed_records_sha256": "87bd69cf65a0550b8bc39b7fdd99f5c1aafa4e67859b16efcdb405498c83cac4",
+    "machine_profile_sha256": "2d3a660a42261ab7409fcc12f9f79a96524e86d49e2a9d05a99b649414234487"
+  }
+}
