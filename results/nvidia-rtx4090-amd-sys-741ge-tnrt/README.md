@@ -57,9 +57,12 @@ speed-records.jsonl 5ba466c3a2f7311bfb527546951abdd2c8a509c6283b1a2802d0357160b7
 
 A complete 1,651-page accuracy evaluation is available as
 [local-evaluator evidence](local-evaluator-accuracy-20260826T063000Z-ar/README.md).
-It reports Overall 95.443681, TextEdit 0.036132, FormulaCDM 94.651074,
-TableTEDS 95.293169, TableTEDS-S 96.385071, and OrderEdit 0.127247, with zero
-CDM/TEDS errors, exceptions, or timeouts.
+
+| Status | Pages | Overall↑ | TextEdit↓ | FormulaCDM↑ | TableTEDS↑ | TableTEDS_S↑ | OrderEdit↓ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| PASS_LOCAL_EVALUATOR | 1,651 | 95.443681 | 0.036132 | 94.651074 | 95.293169 | 96.385071 | 0.127247 |
+
+CDM and TEDS completed with zero errors, exceptions, or timeouts.
 
 This accuracy run reused the speed-test image with a version-aligned local
 evaluator toolchain, not the protocol-pinned evaluator image. It is therefore
