@@ -10,20 +10,37 @@ The two primary outputs are:
 1. **Speed**: average end-to-end page latency and page/s under concurrency 1.
 2. **Accuracy**: OmniDocBench v1.6 over all 1,651 pages. The local columns use
    the pinned HunyuanOCR-1.5 1B weights, dataset, and evaluator source/config;
-   the paper column is the published Table 12 reference:
+   the paper column is the published Table 12 reference.
 
-| Metric | [Official paper](https://arxiv.org/pdf/2607.04884v2) | [NVIDIA RTX 4090](results/nvidia-rtx4090-amd-sys-741ge-tnrt/SERVING.md) | [AMD Radeon AI PRO R9700](results/amd-r9700-workstation-sh/SERVING.md) |
-| --- | ---: | ---: | ---: |
-| Overall↑ | 94.74 | 95.443681 | 95.618309 |
-| TextEdit↓ | 0.039 | 0.036132 | 0.034877 |
-| FormulaCDM↑ | 94.50 | 94.651074 | 94.705744 |
-| TableTEDS↑ | 93.67 | 95.293169 | 95.636851 |
-| TableTEDS_S↑ | 94.71 | 96.385071 | 96.721318 |
-| OrderEdit↓ | 0.129 | 0.127247 | 0.124848 |
+### Speed (`quick9-c1`)
+
+| Accelerator / configuration | Avg latency (s)↓ | P95 (s)↓ | Page/s↑ | Token/s* |
+| --- | ---: | ---: | ---: | ---: |
+| [NVIDIA RTX 4090](results/nvidia-rtx4090-amd-sys-741ge-tnrt/SERVING.md) | 1.682 | 4.569 | 0.5944 | 392.7 |
+| [AMD Radeon PRO W7900D](results/amd-w7900d-gpu1-xw-k8s-test-m-001/SERVING.md) | 4.662 | 21.929 | 0.2145 | 90.7 |
+| [NVIDIA GB10](results/nvidia-gb10-spark2-shanghai/) | 5.397 | 15.168 | 0.1853 | 122.0 |
+| [AMD Radeon AI PRO R9700](results/amd-r9700-workstation-sh/SERVING.md) | 7.346 | 21.013 | 0.1361 | 89.4 |
+
+All rows above use the same fixed nine-page inventory, one GPU, request
+concurrency 1, one warm-up per page, and three measured repetitions. Page/s is
+the primary speed metric. Token/s is diagnostic only across tokenizers.
+
+### Accuracy (OmniDocBench v1.6)
+
+| Metric | [Official paper](https://arxiv.org/pdf/2607.04884v2) | [NVIDIA RTX 4090](results/nvidia-rtx4090-amd-sys-741ge-tnrt/SERVING.md) | [AMD Radeon PRO W7900D](results/amd-w7900d-gpu1-xw-k8s-test-m-001/SERVING.md) | [AMD Radeon AI PRO R9700](results/amd-r9700-workstation-sh/SERVING.md) |
+| --- | ---: | ---: | ---: | ---: |
+| Overall↑ | 94.74 | 95.443681 | 95.593058 | 95.618309 |
+| TextEdit↓ | 0.039 | 0.036132 | 0.036086 | 0.034877 |
+| FormulaCDM↑ | 94.50 | 94.651074 | 95.129761 | 94.705744 |
+| TableTEDS↑ | 93.67 | 95.293169 | 95.258004 | 95.636851 |
+| TableTEDS_S↑ | 94.71 | 96.385071 | 96.362554 | 96.721318 |
+| OrderEdit↓ | 0.129 | 0.127247 | 0.124724 | 0.124848 |
 
 The paper column is the HunyuanOCR-1.5 reference from Table 12. The
 [R9700 evidence](results/amd-r9700-workstation-sh/amd-r9700-workstation-sh-20260827T014842Z-ar/result.json)
-is canonical and used the protocol-pinned evaluator image. The
+and
+[W7900D evidence](results/amd-w7900d-gpu1-xw-k8s-test-m-001/amd-w7900d-gpu1-xw-k8s-test-m-001-20260826-quick9-c1-r1/result.json)
+are canonical and used the protocol-pinned evaluator image. The
 [RTX 4090 evidence](results/nvidia-rtx4090-amd-sys-741ge-tnrt/local-evaluator-accuracy-20260826T063000Z-ar/README.md)
 used the pinned evaluator source/config but a version-aligned local evaluator
 toolchain, so it is complete comparison evidence rather than a canonical result.

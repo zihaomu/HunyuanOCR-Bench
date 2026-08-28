@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+  "dataset_pages": 1651,
+  "metrics": {
+    "overall": 95.59305818688527,
+    "text_edit": 0.036085901152307004,
+    "formula_cdm": 95.12976062096227,
+    "table_teds": 95.25800405492426,
+    "table_teds_s": 96.36255377123238,
+    "order_edit": 0.12472404734279441
+  },
+  "paper_reference": {
+    "overall": 94.74,
+    "text_edit": 0.039,
+    "formula_cdm": 94.5,
+    "table_teds": 93.67,
+    "table_teds_s": 94.71,
+    "order_edit": 0.129
+  },
+  "delta_from_paper": {
+    "overall": 0.853058,
+    "text_edit": -0.002914,
+    "formula_cdm": 0.629761,
+    "table_teds": 1.588004,
+    "table_teds_s": 1.652554,
+    "order_edit": -0.004276
+  },
+  "machine_id": "amd-w7900d-gpu1-xw-k8s-test-m-001",
+  "generated_at": "2026-08-28T01:43:49.680968+00:00",
+  "source": {
+    "path": "/home/zihaomu/bigssd/github_project/HunyuanOCR-Bench/work/accuracy-full1651-miopen2-gpu1256-r1/evaluator-summary.json",
+    "sha256": "ae50c6e7fa94cd3b717876f137b17e0bc6469c50c4fa0b3bf8e6cd96bfb2fd7a"
+  }
+}

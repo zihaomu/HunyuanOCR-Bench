@@ -40,7 +40,11 @@ class AggregateTests(unittest.TestCase):
             ):
                 shutil.rmtree(local_accuracy)
             output_dir = root / "leaderboards"
-            self.assertEqual(aggregate_results(root / "results", output_dir), [])
+            results = aggregate_results(root / "results", output_dir)
+            self.assertEqual(
+                [result["machine_id"] for result in results],
+                ["amd-w7900d-gpu1-xw-k8s-test-m-001"],
+            )
 
             speed_results = json.loads(
                 (output_dir / "speed-results.json").read_text(encoding="utf-8")
@@ -64,7 +68,8 @@ class AggregateTests(unittest.TestCase):
             self.assertIn("## Speed Results", overview)
             self.assertNotIn("## Published Speed Results", overview)
             self.assertNotIn("## Non-comparable Sampled References", overview)
-            self.assertIn("No complete accuracy result has been published yet", overview)
+            self.assertIn("1 canonical accuracy result(s)", overview)
+            self.assertIn("Overall 95.593058", overview)
             self.assertIn("[Speed leaderboard](../leaderboards/speed.md)", overview)
             self.assertIn("[Structured speed results](../leaderboards/speed-results.json)", overview)
             overview_ids = PUBLISHED_IDS + [SAMPLED_ID]
@@ -119,27 +124,53 @@ class AggregateTests(unittest.TestCase):
                 "local-evaluator-accuracy-*/accuracy.json"
             )
         )
+        w7900_accuracy = next(
+            (ROOT / "results" / "amd-w7900d-gpu1-xw-k8s-test-m-001").glob(
+                "*/accuracy.json"
+            )
+        )
         r9700_accuracy = next(
             (ROOT / "results" / "amd-r9700-workstation-sh").glob("*/accuracy.json")
         )
         sources = [
             protocol["paper_reference"]["accuracy"],
             json.loads(rtx_accuracy.read_text(encoding="utf-8"))["metrics"],
+            json.loads(w7900_accuracy.read_text(encoding="utf-8"))["metrics"],
             json.loads(r9700_accuracy.read_text(encoding="utf-8"))["metrics"],
         ]
         rows = {
-            "Overall↑": ("overall", (2, 6, 6)),
-            "TextEdit↓": ("text_edit", (3, 6, 6)),
-            "FormulaCDM↑": ("formula_cdm", (2, 6, 6)),
-            "TableTEDS↑": ("table_teds", (2, 6, 6)),
-            "TableTEDS_S↑": ("table_teds_s", (2, 6, 6)),
-            "OrderEdit↓": ("order_edit", (3, 6, 6)),
+            "Overall↑": ("overall", (2, 6, 6, 6)),
+            "TextEdit↓": ("text_edit", (3, 6, 6, 6)),
+            "FormulaCDM↑": ("formula_cdm", (2, 6, 6, 6)),
+            "TableTEDS↑": ("table_teds", (2, 6, 6, 6)),
+            "TableTEDS_S↑": ("table_teds_s", (2, 6, 6, 6)),
+            "OrderEdit↓": ("order_edit", (3, 6, 6, 6)),
         }
         for label, (key, digits) in rows.items():
             values = [f"{source[key]:.{places}f}" for source, places in zip(sources, digits)]
             self.assertIn(f"| {label} | {' | '.join(values)} |", readme)
         self.assertIn("results/nvidia-rtx4090-amd-sys-741ge-tnrt/SERVING.md", readme)
+        self.assertIn(
+            "results/amd-w7900d-gpu1-xw-k8s-test-m-001/SERVING.md", readme
+        )
         self.assertIn("results/amd-r9700-workstation-sh/SERVING.md", readme)
+
+        w7900_speed = json.loads(
+            next(
+                (ROOT / "results" / "amd-w7900d-gpu1-xw-k8s-test-m-001").glob(
+                    "*/speed.json"
+                )
+            ).read_text(encoding="utf-8")
+        )
+        self.assertIn(
+            "| [AMD Radeon PRO W7900D]"
+            "(results/amd-w7900d-gpu1-xw-k8s-test-m-001/SERVING.md) | "
+            f"{w7900_speed['average_latency_seconds']:.3f} | "
+            f"{w7900_speed['latency_seconds']['p95']:.3f} | "
+            f"{w7900_speed['page_per_second']:.4f} | "
+            f"{w7900_speed['token_per_second']:.1f} |",
+            readme,
+        )
 
     def test_tampered_speed_summary_is_rejected(self) -> None:
         machine_id = PUBLISHED_IDS[0]

@@ -1,0 +1,124 @@
+{
+  "status": "PASS",
+  "decision": "PASS_WITH_WARNINGS",
+  "expected": 1651,
+  "prediction_files": 1651,
+  "latest_records": 1651,
+  "missing_predictions": [],
+  "unexpected_predictions": [],
+  "request_errors": [],
+  "malformed_result_lines": [],
+  "empty": [
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点五年级英语上册_课本_人教新起点英语5A电子课本_page_001.md",
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点五年级英语上册_课本_人教新起点英语5A电子课本_page_004.md",
+    "yanbaopptmerge_yanbaoPPT_4975.md"
+  ],
+  "evaluable_empty": [
+    "yanbaopptmerge_yanbaoPPT_4975.md"
+  ],
+  "non_evaluable_empty": [
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点五年级英语上册_课本_人教新起点英语5A电子课本_page_001.md",
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点五年级英语上册_课本_人教新起点英语5A电子课本_page_004.md"
+  ],
+  "whitespace_only": [],
+  "evaluable_whitespace_only": [],
+  "non_evaluable_whitespace_only": [],
+  "coordinate_only": [],
+  "coordinate_placeholders": [
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点五年级英语上册_课本_人教新起点英语5A电子课本_page_001.md",
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点五年级英语上册_课本_人教新起点英语5A电子课本_page_004.md",
+    "yanbaopptmerge_yanbaoPPT_4975.md"
+  ],
+  "evaluable_coordinate_placeholders": [
+    "yanbaopptmerge_yanbaoPPT_4975.md"
+  ],
+  "pathological_evaluable_pages": [
+    "yanbaopptmerge_yanbaoPPT_4975.md"
+  ],
+  "at_most_10_chars": [
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点五年级英语上册_课本_人教新起点英语5A电子课本_page_001.md",
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点五年级英语上册_课本_人教新起点英语5A电子课本_page_004.md",
+    "notes_f7f010b78016aeebd76e56d9283eb67f_5.md",
+    "yanbaopptmerge_yanbaoPPT_1235.md",
+    "yanbaopptmerge_yanbaoPPT_1820.md",
+    "yanbaopptmerge_yanbaoPPT_4245.md",
+    "yanbaopptmerge_yanbaoPPT_4330.md",
+    "yanbaopptmerge_yanbaoPPT_4975.md",
+    "yanbaopptmerge_yanbaoPPT_5070.md",
+    "yanbaor2_323ab38d3b3b9a44837779e3c7b4a2f7088d9e0eb6c966d4d596faf6c01011a6.pdf_2.md"
+  ],
+  "under_64_chars": [
+    "PPT_B14_Claeys_Consistent Presentation of Images_v2_page_010.md",
+    "PPT_ch7_page_028.md",
+    "PPT_session 10_page_022.md",
+    "PPT_session 10_page_023.md",
+    "PPT_session 10_page_028.md",
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点五年级英语上册_课本_人教新起点英语5A电子课本_page_001.md",
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点五年级英语上册_课本_人教新起点英语5A电子课本_page_004.md",
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点五年级英语下册_课本_人教新起点英语5B电子课本_page_046.md",
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点四年级英语下册_课本_人教新起点英语4B电子课本_page_016.md",
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点四年级英语下册_课本_人教新起点英语4B电子课本_page_017.md",
+    "color_textbook_zhonggaokao_小学_13.人教新起点英语（4-5年级）_人教新起点四年级英语下册_课本_人教新起点英语4B电子课本_page_043.md",
+    "jiaocaineedrop_jiaocai_needrop_en_1041.md",
+    "jiaocaineedrop_jiaocai_needrop_en_1776.md",
+    "jiaocaineedrop_jiaocai_needrop_en_85.md",
+    "jiaocaineedrop_jiaocai_needrop_en_909.md",
+    "notes_f7f010b78016aeebd76e56d9283eb67f_5.md",
+    "page-48687e49-b9db-4251-96cf-124144aa4d08.md",
+    "page-b1b8cc79-a7b3-4ac5-a7c2-49416b195ccb.md",
+    "page-b342f5e6-cc5a-4920-b1b5-83f96bc476d8.md",
+    "yanbaopptmerge_m3_Unit_1_Where_did_you_go.pdf_5.md",
+    "yanbaopptmerge_yanbaoPPT_1015.md",
+    "yanbaopptmerge_yanbaoPPT_1220.md",
+    "yanbaopptmerge_yanbaoPPT_1235.md",
+    "yanbaopptmerge_yanbaoPPT_1475.md",
+    "yanbaopptmerge_yanbaoPPT_150.md",
+    "yanbaopptmerge_yanbaoPPT_1625.md",
+    "yanbaopptmerge_yanbaoPPT_1685.md",
+    "yanbaopptmerge_yanbaoPPT_1810.md",
+    "yanbaopptmerge_yanbaoPPT_1820.md",
+    "yanbaopptmerge_yanbaoPPT_2845.md",
+    "yanbaopptmerge_yanbaoPPT_4020.md",
+    "yanbaopptmerge_yanbaoPPT_4245.md",
+    "yanbaopptmerge_yanbaoPPT_4330.md",
+    "yanbaopptmerge_yanbaoPPT_4635.md",
+    "yanbaopptmerge_yanbaoPPT_485.md",
+    "yanbaopptmerge_yanbaoPPT_4975.md",
+    "yanbaopptmerge_yanbaoPPT_5070.md",
+    "yanbaopptmerge_yanbaoPPT_520.md",
+    "yanbaopptmerge_yanbaoPPT_5300.md",
+    "yanbaopptmerge_yanbaoPPT_5305.md",
+    "yanbaopptmerge_yanbaoPPT_5345.md",
+    "yanbaopptmerge_yanbaoPPT_5435.md",
+    "yanbaopptmerge_yanbaoPPT_5555.md",
+    "yanbaopptmerge_yanbaoPPT_5560.md",
+    "yanbaopptmerge_yanbaoPPT_5620.md",
+    "yanbaopptmerge_yanbaoPPT_5885.md",
+    "yanbaopptmerge_yanbaoPPT_5940.md",
+    "yanbaopptmerge_yanbaoPPT_620.md",
+    "yanbaopptmerge_yanbaoPPT_745.md",
+    "yanbaopptmerge_yanbaoPPT_750.md",
+    "yanbaopptmerge_yanbaoPPT_770.md",
+    "yanbaopptmerge_yanbaoPPT_805.md",
+    "yanbaopptmerge_yanbaoPPT_90.md",
+    "yanbaor2_323ab38d3b3b9a44837779e3c7b4a2f7088d9e0eb6c966d4d596faf6c01011a6.pdf_2.md",
+    "yanbaor2_ey-report-strategy-for-a-tech-driven-gba-zh.pdf_16.md"
+  ],
+  "early_stopped": [
+    "docstructbench_dianzishu_zhongwenzaixian-o.O-61518266.pdf_149.jpg",
+    "newspaper_The Globe and Mail - 2025-1-8@magazinesclubnew_page_014.png",
+    "page-a976a26e-4dbb-492a-a380-b923b87ed496.png",
+    "page-dca64e05-1ce6-49ee-857a-9b5d05a87357.png"
+  ],
+  "collapse_threshold": {
+    "fraction": 0.01,
+    "maximum_pages": 16
+  },
+  "length_statistics": {
+    "minimum": 0,
+    "p01": 14,
+    "p05": 92,
+    "median": 1418,
+    "maximum": 66646
+  }
+}

@@ -16,9 +16,10 @@ Rows are ordered by Page/s. The Profile column identifies the measurement invent
 
 ## Accuracy Status
 
-1 canonical accuracy result(s) are available in the [accuracy leaderboard](../leaderboards/accuracy.md):
+2 canonical accuracy result(s) are available in the [accuracy leaderboard](../leaderboards/accuracy.md):
 
 - [amd-r9700-workstation-sh](amd-r9700-workstation-sh/amd-r9700-workstation-sh-20260827T014842Z-ar/result.json): Overall 95.618309
+- [amd-w7900d-gpu1-xw-k8s-test-m-001](amd-w7900d-gpu1-xw-k8s-test-m-001/amd-w7900d-gpu1-xw-k8s-test-m-001-20260826-quick9-c1-r1/result.json): Overall 95.593058
 
 1 complete local-evaluator result(s):
 
