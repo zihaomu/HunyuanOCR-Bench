@@ -2,6 +2,28 @@
 
 Machine branch: `machine/amd-strix-halo-halo3`
 
+## Quick9 Speed Result
+
+The primary `quick9-c1` speed benchmark is complete and passed.
+
+| Metric | Result |
+| --- | ---: |
+| Status | PASS |
+| Images | 9 |
+| Warm-up requests | 9 |
+| Measured repetitions | 3 |
+| Measured requests | 27 |
+| Successful / failed / truncated | 27 / 0 / 0 |
+| Average latency | 4.962382 s/page |
+| P50 latency | 3.898368 s |
+| P95 latency | 14.019636 s |
+| Page throughput | 0.201516 page/s |
+| Token throughput | 132.217 token/s |
+
+The fixed inventory contains three text, three formula, and three table pages,
+with one low-, medium-, and high-complexity case in each category. See the
+[serving configuration](SERVING.md) for the runtime and startup command.
+
 ## Interim Speed Result
 
 The 30-page sampled speed benchmark is complete and passed. Accuracy is not
@@ -38,6 +60,10 @@ The sampled average latency differs from the available 584-page reference by
 ## Evidence
 
 - [Machine profile](../../machines/amd-strix-halo-halo3.json)
+- [Serving configuration](SERVING.md)
+- [Quick9 inventory](../../protocol/omnidocbench-v1.6-speed-quick9.txt)
+- [Quick9 speed summary](interim-speed-quick9-c1/speed.json)
+- [Quick9 per-request records](interim-speed-quick9-c1/speed-records.jsonl)
 - [Sample details](sampled-speed-30-20260826T065105Z-ar/README.md)
 - [Speed summary](sampled-speed-30-20260826T065105Z-ar/sampled-speed.json)
 - [Per-request records](sampled-speed-30-20260826T065105Z-ar/speed-records.jsonl)

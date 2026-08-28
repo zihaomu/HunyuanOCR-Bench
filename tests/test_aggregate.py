@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLISHED_IDS = [
     "nvidia-rtx4090-amd-sys-741ge-tnrt",
     "amd-w7900d-gpu1-xw-k8s-test-m-001",
+    "amd-strix-halo-halo3",
     "nvidia-gb10-spark2-shanghai",
 ]
 SAMPLED_ID = "amd-strix-halo-halo3"
@@ -33,7 +34,7 @@ class AggregateTests(unittest.TestCase):
     def test_speed_only_results_and_sampled_reference_are_separated(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            for machine_id in PUBLISHED_IDS + [SAMPLED_ID]:
+            for machine_id in dict.fromkeys(PUBLISHED_IDS + [SAMPLED_ID]):
                 self._copy_machine_result(root, machine_id)
             for local_accuracy in (root / "results").glob(
                 "*/local-evaluator-accuracy-*"
@@ -52,7 +53,10 @@ class AggregateTests(unittest.TestCase):
             published = [result for result in speed_results if result["publishable"]]
             sampled = [result for result in speed_results if not result["publishable"]]
             self.assertEqual([result["machine_id"] for result in published], PUBLISHED_IDS)
-            self.assertEqual([result["speed"]["profile_id"] for result in published], ["quick9-c1"] * 3)
+            self.assertEqual(
+                [result["speed"]["profile_id"] for result in published],
+                ["quick9-c1"] * len(PUBLISHED_IDS),
+            )
             self.assertEqual([result["machine_id"] for result in sampled], [SAMPLED_ID])
             self.assertEqual(sampled[0]["speed"]["profile_id"], "sampled-30-from-584")
 
@@ -61,7 +65,8 @@ class AggregateTests(unittest.TestCase):
             self.assertIn("## Non-comparable References", leaderboard)
             positions = [leaderboard.index(machine_id) for machine_id in PUBLISHED_IDS]
             self.assertEqual(positions, sorted(positions))
-            self.assertLess(leaderboard.index(PUBLISHED_IDS[-1]), leaderboard.index(SAMPLED_ID))
+            self.assertEqual(leaderboard.count(f"| {SAMPLED_ID} |"), 2)
+            self.assertLess(leaderboard.index(PUBLISHED_IDS[-1]), leaderboard.rindex(SAMPLED_ID))
 
             overview = (root / "results" / "README.md").read_text(encoding="utf-8")
             self.assertIn("# Results Overview", overview)
@@ -73,9 +78,13 @@ class AggregateTests(unittest.TestCase):
             self.assertIn("[Speed leaderboard](../leaderboards/speed.md)", overview)
             self.assertIn("[Structured speed results](../leaderboards/speed-results.json)", overview)
             overview_ids = PUBLISHED_IDS + [SAMPLED_ID]
-            overview_positions = [overview.index(machine_id) for machine_id in overview_ids]
-            self.assertEqual(overview_positions, sorted(overview_positions))
-            for machine_id in overview_ids:
+            overview_rows = [
+                line.split("](", 1)[0].removeprefix("| [")
+                for line in overview.splitlines()
+                if line.startswith("| [")
+            ]
+            self.assertEqual(overview_rows, overview_ids)
+            for machine_id in dict.fromkeys(overview_ids):
                 self.assertIn(f"[{machine_id}]({machine_id}/)", overview)
             self.assertEqual(overview.count("| Machine | Accelerator | Profile |"), 1)
             self.assertNotIn("not ranked against the table above", overview)
@@ -153,6 +162,7 @@ class AggregateTests(unittest.TestCase):
         self.assertIn(
             "results/amd-w7900d-gpu1-xw-k8s-test-m-001/SERVING.md", readme
         )
+        self.assertIn("results/amd-strix-halo-halo3/SERVING.md", readme)
         self.assertIn("results/amd-r9700-workstation-sh/SERVING.md", readme)
 
         w7900_speed = json.loads(
@@ -169,6 +179,22 @@ class AggregateTests(unittest.TestCase):
             f"{w7900_speed['latency_seconds']['p95']:.3f} | "
             f"{w7900_speed['page_per_second']:.4f} | "
             f"{w7900_speed['token_per_second']:.1f} |",
+            readme,
+        )
+
+        halo_speed = json.loads(
+            (
+                ROOT
+                / "results/amd-strix-halo-halo3/interim-speed-quick9-c1/speed.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertIn(
+            "| [AMD Ryzen AI Max+ 395 (Radeon 8060S)]"
+            "(results/amd-strix-halo-halo3/SERVING.md) | "
+            f"{halo_speed['average_latency_seconds']:.3f} | "
+            f"{halo_speed['latency_seconds']['p95']:.3f} | "
+            f"{halo_speed['page_per_second']:.4f} | "
+            f"{halo_speed['token_per_second']:.1f} |",
             readme,
         )
 

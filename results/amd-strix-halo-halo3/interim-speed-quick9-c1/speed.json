@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+  "profile_id": "quick9-c1",
+  "sample_inventory_sha256": "28f59abf2efbac69a32a3914e184e63d160accb90474036b51105ec7817d72eb",
+  "images": 9,
+  "requests": 27,
+  "successful": 27,
+  "failed": 0,
+  "truncated": 0,
+  "missing_completion_tokens": 0,
+  "wall_seconds": 134.011822,
+  "request_seconds_sum": 133.984326,
+  "average_latency_seconds": 4.962382,
+  "page_per_second": 0.201516,
+  "wall_page_per_second": 0.201475,
+  "completion_tokens": 17715,
+  "token_per_second": 132.217,
+  "latency_seconds": {
+    "mean": 4.962382,
+    "p50": 3.898368,
+    "p90": 13.97554,
+    "p95": 14.019636,
+    "p99": 14.033518,
+    "min": 1.346766,
+    "max": 14.033518
+  },
+  "parameters": {
+    "temperature": 0.0,
+    "max_tokens": 8000,
+    "extra_body": {
+      "top_k": 1
+    },
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "tencent/HunyuanOCR",
+    "concurrency": 1,
+    "warmup_pages": 9,
+    "repetitions": 3,
+    "image_data_url_mime": "image/png"
+  }
+}
