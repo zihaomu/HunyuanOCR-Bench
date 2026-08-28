@@ -10,7 +10,7 @@ Only rows with the same speed profile are directly comparable. Page/s is the pri
 | amd-w7900d-gpu1-xw-k8s-test-m-001 | 1× AMD Radeon PRO W7900D (gfx1100) | vLLM | ar | quick9-c1 | 4.662 | 21.929 | 0.2145 | 90.7 |
 | amd-strix-halo-halo3 | 1× AMD Ryzen AI Max+ 395 w/ Radeon 8060S (gfx1151) | vLLM | ar | quick9-c1 | 4.962 | 14.020 | 0.2015 | 132.2 |
 | nvidia-gb10-spark2-shanghai | 1× NVIDIA GB10 | vLLM | ar | quick9-c1 | 5.397 | 15.168 | 0.1853 | 122.0 |
-| amd-r9700-workstation-sh | 1× AMD Radeon AI PRO R9700 (gfx1201) | vLLM | ar | quick9-c1 | 7.346 | 21.013 | 0.1361 | 89.4 |
+| amd-r9700-workstation-sh | 1× AMD Radeon AI PRO R9700 (gfx1201) | vLLM | ar | quick9-c1 | 5.700 | 16.534 | 0.1754 | 115.2 |
 
 ## Non-comparable References
 
