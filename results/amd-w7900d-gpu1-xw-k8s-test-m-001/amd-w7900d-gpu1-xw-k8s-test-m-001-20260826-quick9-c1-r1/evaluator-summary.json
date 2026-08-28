@@ -9,7 +9,7 @@
       "conda_env": "omnidocbench_v16_smoke_20260408_py310",
       "conda_prefix": "/opt/miniconda310/envs/omnidocbench_v16_smoke_20260408_py310",
       "libc": "glibc 2.35",
-      "uname": "Linux f5b01ee451de 6.8.0-134-generic #134-Ubuntu SMP PREEMPT_DYNAMIC Fri Jun 26 18:43:11 UTC 2026 x86_64 x86_64",
+      "uname": "Linux c30e06403b7b 6.8.0-134-generic #134-Ubuntu SMP PREEMPT_DYNAMIC Fri Jun 26 18:43:11 UTC 2026 x86_64 x86_64",
       "os_release": {
         "PRETTY_NAME": "Ubuntu 22.04.5 LTS",
         "NAME": "Ubuntu",
@@ -209,32 +209,32 @@
     "source": "tools/generate_result_tables.ipynb#cell-2",
     "metrics": {
       "text_block_Edit_dist": {
-        "raw": 0.4436741827883067,
+        "raw": 0.036085901152307004,
         "page_denominator": 1557,
-        "notebook_value": 0.4436741827883067
+        "notebook_value": 0.036085901152307004
       },
       "display_formula_CDM": {
-        "raw": 0.356869110672718,
+        "raw": 0.9512976062096227,
         "page_denominator": 313,
-        "notebook_value": 35.6869110672718
+        "notebook_value": 95.12976062096227
       },
       "table_TEDS": {
-        "raw": 0.47065985503078667,
+        "raw": 0.9525800405492426,
         "page_denominator": 458,
-        "notebook_value": 47.065985503078664
+        "notebook_value": 95.25800405492426
       },
       "table_TEDS_structure_only": {
-        "raw": 0.47849168795853975,
+        "raw": 0.9636255377123238,
         "page_denominator": 458,
-        "notebook_value": 47.84916879585398
+        "notebook_value": 96.36255377123238
       },
       "reading_order_Edit_dist": {
-        "raw": 0.459062850195266,
+        "raw": 0.12472404734279441,
         "page_denominator": 1638,
-        "notebook_value": 0.459062850195266
+        "notebook_value": 0.12472404734279441
       }
     },
-    "overall_notebook": 46.12849276383994
+    "overall_notebook": 95.59305818688527
   },
   "benchmark_provenance": {
     "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",

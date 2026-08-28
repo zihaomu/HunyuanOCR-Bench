@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "status": "PASS",
   "run_id": "amd-w7900d-gpu1-xw-k8s-test-m-001-20260826-quick9-c1-r1",
-  "created_at": "2026-08-27T01:37:23.512964+00:00",
+  "created_at": "2026-08-28T01:50:09.532060+00:00",
   "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
   "protocol_revision": "2ff5d7eed19b2d18b41e1ad4d31c6b673256c502",
   "machine_id": "amd-w7900d-gpu1-xw-k8s-test-m-001",
@@ -27,11 +27,15 @@
     "gpu_memory_utilization": 0.9,
     "accuracy_replica_gpus": [
       1,
-      2
+      2,
+      5,
+      6
     ],
     "accuracy_ports": [
       18016,
-      18017
+      18017,
+      18020,
+      18021
     ]
   },
   "model": {
@@ -76,12 +80,12 @@
     "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
     "dataset_pages": 1651,
     "metrics": {
-      "overall": 46.12849276383994,
-      "text_edit": 0.4436741827883067,
-      "formula_cdm": 35.6869110672718,
-      "table_teds": 47.065985503078664,
-      "table_teds_s": 47.84916879585398,
-      "order_edit": 0.459062850195266
+      "overall": 95.59305818688527,
+      "text_edit": 0.036085901152307004,
+      "formula_cdm": 95.12976062096227,
+      "table_teds": 95.25800405492426,
+      "table_teds_s": 96.36255377123238,
+      "order_edit": 0.12472404734279441
     },
     "paper_reference": {
       "overall": 94.74,
@@ -92,18 +96,18 @@
       "order_edit": 0.129
     },
     "delta_from_paper": {
-      "overall": -48.611507,
-      "text_edit": 0.404674,
-      "formula_cdm": -58.813089,
-      "table_teds": -46.604014,
-      "table_teds_s": -46.860831,
-      "order_edit": 0.330063
+      "overall": 0.853058,
+      "text_edit": -0.002914,
+      "formula_cdm": 0.629761,
+      "table_teds": 1.588004,
+      "table_teds_s": 1.652554,
+      "order_edit": -0.004276
     },
     "machine_id": "amd-w7900d-gpu1-xw-k8s-test-m-001",
-    "generated_at": "2026-08-27T01:37:23.381904+00:00",
+    "generated_at": "2026-08-28T01:43:49.680968+00:00",
     "source": {
-      "path": "/home/zihaomu/bigssd/github_project/HunyuanOCR-Bench/work/amd-w7900d-gpu1-xw-k8s-test-m-001-20260826-quick9-c1-r1/evaluator-summary.json",
-      "sha256": "f00706f67ff663cdb701d3dbe640fb85c28642e61667339120178c9c913fc33f"
+      "path": "/home/zihaomu/bigssd/github_project/HunyuanOCR-Bench/work/accuracy-full1651-miopen2-gpu1256-r1/evaluator-summary.json",
+      "sha256": "ae50c6e7fa94cd3b717876f137b17e0bc6469c50c4fa0b3bf8e6cd96bfb2fd7a"
     }
   },
   "speed": {
@@ -148,13 +152,13 @@
     }
   },
   "artifacts": {
-    "accuracy_sha256": "bae9ae01f7efd04e76343a6c878f313296684b14a635c7a203742f0122e4cf8c",
+    "accuracy_sha256": "cbb635eaf9025205085a11fe28f7a62d20b68b3ca8bf85151047a938f92d6d5a",
     "speed_sha256": "e041d22904efefda9398edfac676d632026a646f0f32c5701ee22a01a828d4ba",
-    "machine_capture_sha256": "d9acbf32c1fedb33aa1f1a226b92b2495c5b8809c2e1a0992bd1c90a3a16636e",
+    "machine_capture_sha256": "670f57a3f7dfd5bfb88fa0362113ec11f04c603d236f7325ca75fba97ac8951e",
     "assets_verification_sha256": "2a3ea3144bd3d984256536e22267243a91614c975bf0bde54cad0582e7cb88ce",
-    "prediction_verification_sha256": "59140901445ff2bc8448051fcf918829fdf6bdb08d072cd7b431627524a68b0e",
-    "evaluator_summary_sha256": "f00706f67ff663cdb701d3dbe640fb85c28642e61667339120178c9c913fc33f",
+    "prediction_verification_sha256": "2e6ce188d3fccf6857ae097b486830c892e1b8c238383cda425ea6613ad0e66f",
+    "evaluator_summary_sha256": "ae50c6e7fa94cd3b717876f137b17e0bc6469c50c4fa0b3bf8e6cd96bfb2fd7a",
     "speed_records_sha256": "87bd69cf65a0550b8bc39b7fdd99f5c1aafa4e67859b16efcdb405498c83cac4",
-    "machine_profile_sha256": "2d3a660a42261ab7409fcc12f9f79a96524e86d49e2a9d05a99b649414234487"
+    "machine_profile_sha256": "46087604744d17ef1f715a446c03ab3c2d4f0b424acdd751867eff83460c9807"
   }
 }

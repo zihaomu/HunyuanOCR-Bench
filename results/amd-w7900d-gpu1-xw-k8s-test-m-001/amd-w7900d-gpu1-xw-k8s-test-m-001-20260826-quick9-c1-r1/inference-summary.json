@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "images": 1651,
+  "processed": 1651,
+  "successful": 1651,
+  "failed": 0,
+  "early_stopped": 4,
+  "postprocessed": 906,
+  "elapsed_seconds": 10700.065,
+  "endpoints": [
+    {
+      "physical_gpu": 1,
+      "port": 18016,
+      "requests": 416
+    },
+    {
+      "physical_gpu": 2,
+      "port": 18017,
+      "requests": 407
+    },
+    {
+      "physical_gpu": 5,
+      "port": 18020,
+      "requests": 388
+    },
+    {
+      "physical_gpu": 6,
+      "port": 18021,
+      "requests": 440
+    }
+  ],
+  "missing_outputs": [],
+  "unexpected_outputs": []
+}

@@ -19,8 +19,18 @@
     "physical_gpu": 1,
     "max_model_len": 131072,
     "gpu_memory_utilization": 0.9,
-    "accuracy_replica_gpus": [1, 2],
-    "accuracy_ports": [18016, 18017]
+    "accuracy_replica_gpus": [
+      1,
+      2,
+      5,
+      6
+    ],
+    "accuracy_ports": [
+      18016,
+      18017,
+      18020,
+      18021
+    ]
   },
   "software": {
     "os": "Ubuntu 24.04.4 LTS; kernel 6.8.0-134-generic",
@@ -28,5 +38,5 @@
     "compute_stack": "ROCm 7.2.4; HIP 7.2.53211",
     "pytorch": "2.10.0+rocm7.2.4.git3d3aa833"
   },
-  "notes": "Speed is measured on physical GPU1 only with one visible GPU, TP=1, and request concurrency=1. Accuracy is not a speed measurement and is distributed over two independent TP=1 replicas on physical GPU1 and GPU2 (ports 18016 and 18017). GPU0 is excluded because it has a persistent competing workload."
+  "notes": "Speed is measured on physical GPU1 only with one visible GPU, TP=1, and request concurrency=1. Accuracy is not a speed measurement: the corrected full run uses MIOPEN_FIND_MODE=2 and four independent TP=1 replicas on physical GPUs 1, 2, 5, and 6 (ports 18016, 18017, 18020, and 18021), with one in-flight request per replica. GPU0 is excluded because it has a persistent competing workload."
 }
