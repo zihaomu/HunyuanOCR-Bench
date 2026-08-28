@@ -164,14 +164,14 @@ class AggregateTests(unittest.TestCase):
         for label, (key, digits) in rows.items():
             values = [f"{source[key]:.{places}f}" for source, places in zip(sources, digits)]
             self.assertIn(f"| {label} | {' | '.join(values)} |", readme)
-        self.assertIn("results/nvidia-rtx4090-amd-sys-741ge-tnrt/SERVING.md", readme)
+        self.assertIn("results/nvidia-rtx4090-amd-sys-741ge-tnrt/ACCURACY.md", readme)
         self.assertIn(
-            "results/amd-w7900d-gpu1-xw-k8s-test-m-001/SERVING.md", readme
+            "results/amd-w7900d-gpu1-xw-k8s-test-m-001/ACCURACY.md", readme
         )
-        self.assertIn("results/amd-strix-halo-halo3/SERVING.md", readme)
+        self.assertIn("results/amd-strix-halo-halo3/ACCURACY.md", readme)
         self.assertIn(
             "[AMD Strix Halo (Ryzen AI Max+ 395 / Radeon 8060S, c2)]"
-            "(results/amd-strix-halo-halo3/SERVING.md)",
+            "(results/amd-strix-halo-halo3/ACCURACY.md)",
             readme,
         )
         self.assertIn(
@@ -179,7 +179,7 @@ class AggregateTests(unittest.TestCase):
             "full1651-c2-accuracy-20260826T065105Z-ar/README.md",
             readme,
         )
-        self.assertIn("results/amd-r9700-workstation-sh/SERVING.md", readme)
+        self.assertIn("results/amd-r9700-workstation-sh/ACCURACY.md", readme)
 
         w7900_speed = json.loads(
             next(

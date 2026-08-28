@@ -28,7 +28,7 @@ the primary speed metric. Token/s is diagnostic only across tokenizers.
 
 ### Accuracy (OmniDocBench v1.6)
 
-| Metric | [Official paper](https://arxiv.org/pdf/2607.04884v2) | [NVIDIA RTX 4090](results/nvidia-rtx4090-amd-sys-741ge-tnrt/SERVING.md) | [AMD Radeon PRO W7900D](results/amd-w7900d-gpu1-xw-k8s-test-m-001/SERVING.md) | [AMD Strix Halo (Ryzen AI Max+ 395 / Radeon 8060S, c2)](results/amd-strix-halo-halo3/SERVING.md) | [AMD Radeon AI PRO R9700](results/amd-r9700-workstation-sh/SERVING.md) |
+| Metric | [Official paper](https://arxiv.org/pdf/2607.04884v2) | [NVIDIA RTX 4090](results/nvidia-rtx4090-amd-sys-741ge-tnrt/ACCURACY.md) | [AMD Radeon PRO W7900D](results/amd-w7900d-gpu1-xw-k8s-test-m-001/ACCURACY.md) | [AMD Strix Halo (Ryzen AI Max+ 395 / Radeon 8060S, c2)](results/amd-strix-halo-halo3/ACCURACY.md) | [AMD Radeon AI PRO R9700](results/amd-r9700-workstation-sh/ACCURACY.md) |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Overall↑ | 94.74 | 95.443681 | 95.593058 | 95.345115 | 95.618309 |
 | TextEdit↓ | 0.039 | 0.036132 | 0.036086 | 0.036755 | 0.034877 |
