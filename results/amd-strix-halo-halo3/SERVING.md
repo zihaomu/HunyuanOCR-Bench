@@ -1,12 +1,14 @@
 # AMD Strix Halo Serving Configuration
 
-This is the configuration used for the Strix Halo `quick9-c1` speed result.
-The endpoint ran on the integrated Radeon 8060S in an AMD Ryzen AI Max+ 395.
+This page records the configurations used for the Strix Halo `quick9-c1` speed
+result and complete 1,651-page c2 accuracy result. The endpoint ran on the
+integrated Radeon 8060S in an AMD Ryzen AI Max+ 395.
 
 - [Machine profile](../../machines/amd-strix-halo-halo3.json)
 - [Strix Halo result summary](README.md)
 - [Quick9 speed summary](interim-speed-quick9-c1/speed.json)
 - [Quick9 per-request records](interim-speed-quick9-c1/speed-records.jsonl)
+- [Full c2 accuracy evidence](full1651-c2-accuracy-20260826T065105Z-ar/README.md)
 
 ## Captured Runtime
 
@@ -32,6 +34,19 @@ a 16 GiB KV cache. The `quick9-c1` result on this page was measured on the live
 endpoint above after its fixed KV cache was increased to 32 GiB; model weights,
 precision, tensor parallelism, context length, and request settings were
 unchanged.
+
+## Accuracy Endpoint
+
+The complete accuracy run used the same container image, BF16 precision, TP=1,
+131,072-token model context, and `--skip-mm-profiling` setting, with a fixed
+16 GiB KV cache. The upstream `batch_infer.py` client processed all 1,651 pages
+using two request workers, `max_tokens=32768`, `temperature=0`, `top_k=-1`,
+`repetition_penalty=1.08`, and official document post-processing.
+
+The pinned OmniDocBench evaluator completed with zero page-match, CDM, or TEDS
+timeouts and errors. Request concurrency 2 is a deviation from the protocol's
+required concurrency 1, so the accuracy column is explicitly labeled `c2` and
+must not be treated as a canonical leaderboard result.
 
 ## Speed Endpoint
 

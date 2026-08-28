@@ -141,19 +141,25 @@ class AggregateTests(unittest.TestCase):
         r9700_accuracy = next(
             (ROOT / "results" / "amd-r9700-workstation-sh").glob("*/accuracy.json")
         )
+        halo_accuracy = next(
+            (ROOT / "results" / "amd-strix-halo-halo3").glob(
+                "full1651-c2-accuracy-*/accuracy.json"
+            )
+        )
         sources = [
             protocol["paper_reference"]["accuracy"],
             json.loads(rtx_accuracy.read_text(encoding="utf-8"))["metrics"],
             json.loads(w7900_accuracy.read_text(encoding="utf-8"))["metrics"],
+            json.loads(halo_accuracy.read_text(encoding="utf-8"))["metrics"],
             json.loads(r9700_accuracy.read_text(encoding="utf-8"))["metrics"],
         ]
         rows = {
-            "Overall↑": ("overall", (2, 6, 6, 6)),
-            "TextEdit↓": ("text_edit", (3, 6, 6, 6)),
-            "FormulaCDM↑": ("formula_cdm", (2, 6, 6, 6)),
-            "TableTEDS↑": ("table_teds", (2, 6, 6, 6)),
-            "TableTEDS_S↑": ("table_teds_s", (2, 6, 6, 6)),
-            "OrderEdit↓": ("order_edit", (3, 6, 6, 6)),
+            "Overall↑": ("overall", (2, 6, 6, 6, 6)),
+            "TextEdit↓": ("text_edit", (3, 6, 6, 6, 6)),
+            "FormulaCDM↑": ("formula_cdm", (2, 6, 6, 6, 6)),
+            "TableTEDS↑": ("table_teds", (2, 6, 6, 6, 6)),
+            "TableTEDS_S↑": ("table_teds_s", (2, 6, 6, 6, 6)),
+            "OrderEdit↓": ("order_edit", (3, 6, 6, 6, 6)),
         }
         for label, (key, digits) in rows.items():
             values = [f"{source[key]:.{places}f}" for source, places in zip(sources, digits)]
@@ -163,6 +169,16 @@ class AggregateTests(unittest.TestCase):
             "results/amd-w7900d-gpu1-xw-k8s-test-m-001/SERVING.md", readme
         )
         self.assertIn("results/amd-strix-halo-halo3/SERVING.md", readme)
+        self.assertIn(
+            "[AMD Strix Halo (Ryzen AI Max+ 395 / Radeon 8060S, c2)]"
+            "(results/amd-strix-halo-halo3/SERVING.md)",
+            readme,
+        )
+        self.assertIn(
+            "results/amd-strix-halo-halo3/"
+            "full1651-c2-accuracy-20260826T065105Z-ar/README.md",
+            readme,
+        )
         self.assertIn("results/amd-r9700-workstation-sh/SERVING.md", readme)
 
         w7900_speed = json.loads(

@@ -24,12 +24,24 @@ The fixed inventory contains three text, three formula, and three table pages,
 with one low-, medium-, and high-complexity case in each category. See the
 [serving configuration](SERVING.md) for the runtime and startup command.
 
+## Full Accuracy Result
+
+The complete 1,651-page accuracy run passed prediction verification and the
+pinned OmniDocBench evaluator.
+
+| Status | Pages | Overall↑ | TextEdit↓ | FormulaCDM↑ | TableTEDS↑ | TableTEDS_S↑ | OrderEdit↓ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| PASS_LOCAL_EVALUATOR (c2) | 1,651 | 95.345115 | 0.036755 | 94.213906 | 95.496913 | 96.682094 | 0.125789 |
+
+Accuracy inference used request concurrency 2 instead of the protocol-required
+concurrency 1. The result is complete comparison evidence, but it is not a
+canonical leaderboard result. See the
+[full accuracy evidence](full1651-c2-accuracy-20260826T065105Z-ar/README.md).
+
 ## Interim Speed Result
 
-The 30-page sampled speed benchmark is complete and passed. Accuracy is not
-included in this interim publication: full inference over all 1,651
-OmniDocBench v1.6 pages and the official evaluator must finish before accuracy
-is published. This sample is not an official `full1651-c1` leaderboard result.
+The 30-page sampled speed benchmark is complete and passed. This sample is not
+an official `quick9-c1` or `full1651-c1` leaderboard result.
 
 | Metric | Result |
 | --- | ---: |
@@ -64,6 +76,9 @@ The sampled average latency differs from the available 584-page reference by
 - [Quick9 inventory](../../protocol/omnidocbench-v1.6-speed-quick9.txt)
 - [Quick9 speed summary](interim-speed-quick9-c1/speed.json)
 - [Quick9 per-request records](interim-speed-quick9-c1/speed-records.jsonl)
+- [Full c2 accuracy evidence](full1651-c2-accuracy-20260826T065105Z-ar/README.md)
+- [Full c2 accuracy report](full1651-c2-accuracy-20260826T065105Z-ar/accuracy.json)
+- [Full c2 evaluator summary](full1651-c2-accuracy-20260826T065105Z-ar/evaluator-summary.json)
 - [Sample details](sampled-speed-30-20260826T065105Z-ar/README.md)
 - [Speed summary](sampled-speed-30-20260826T065105Z-ar/sampled-speed.json)
 - [Per-request records](sampled-speed-30-20260826T065105Z-ar/speed-records.jsonl)
