@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+  "dataset_pages": 1651,
+  "metrics": {
+    "overall": 95.34511455596112,
+    "text_edit": 0.03675475479819452,
+    "formula_cdm": 94.21390576998675,
+    "table_teds": 95.49691337771603,
+    "table_teds_s": 96.68209377679456,
+    "order_edit": 0.1257887496842939
+  },
+  "paper_reference": {
+    "overall": 94.74,
+    "text_edit": 0.039,
+    "formula_cdm": 94.5,
+    "table_teds": 93.67,
+    "table_teds_s": 94.71,
+    "order_edit": 0.129
+  },
+  "delta_from_paper": {
+    "overall": 0.605115,
+    "text_edit": -0.002245,
+    "formula_cdm": -0.286094,
+    "table_teds": 1.826913,
+    "table_teds_s": 1.972094,
+    "order_edit": -0.003211
+  },
+  "machine_id": "amd-strix-halo-halo3",
+  "generated_at": "2026-08-27T12:07:09.287240+00:00",
+  "source": {
+    "path": "work/amd-strix-halo-halo3-20260826T065105Z-ar/evaluator-summary.json",
+    "sha256": "f083fc0b22755935c13bc0a8608fc42bccf1ade6c6c9f346c97428ef390a1264"
+  }
+}

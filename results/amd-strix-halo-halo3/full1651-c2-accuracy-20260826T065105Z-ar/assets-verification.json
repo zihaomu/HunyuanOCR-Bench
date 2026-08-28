@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "source_revisions": {
+    "hunyuanocr": "c55965d3da1e6f41987abec8068f2e70851318bc",
+    "omnidocbench": "147cd5ac9472002f5751221d390bf00abdbc0d2f"
+  },
+  "source_dirty": {
+    "hunyuanocr": false,
+    "omnidocbench": false
+  },
+  "model": {
+    "revision": "449e7d471a8a1ef5bd5d652e4881183d7252cbc7",
+    "weight_files": 1,
+    "weight_bytes": 2239932512,
+    "snapshot": {
+      "verified_files": 22,
+      "verified_bytes": 2623796435
+    }
+  },
+  "dataset": {
+    "revision": "d386947f7fc3bafdcd756c8485845a2f43a19875",
+    "gt_sha256": "a45cd84b04ad8b793e775089640e6b681209abea33ead54c1828ddca35fae496",
+    "gt_bytes": 42208096,
+    "pages": 1651,
+    "images": 1651,
+    "subsets": {
+      "equation_hard": 100,
+      "layout_hard": 99,
+      "table_hard": 97,
+      "v1.5": 1355
+    },
+    "snapshot": {
+      "verified_files": 1659,
+      "verified_bytes": 1545930107
+    }
+  },
+  "errors": []
+}
