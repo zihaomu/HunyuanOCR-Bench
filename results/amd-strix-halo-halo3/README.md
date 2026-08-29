@@ -38,6 +38,15 @@ concurrency 1. The result is complete comparison evidence, but it is not a
 canonical leaderboard result. See the
 [full accuracy evidence](full1651-c2-accuracy-20260826T065105Z-ar/README.md).
 
+## Full1651 Speed Evidence
+
+The `full1651-c1` run processed all 1,651 pages successfully at 18.473307
+seconds/page, 0.054132 page/s, and 54.7279 completion tokens/s. Its strict
+status is **FAIL** because 13 responses reached the 8,000-token limit. The
+records remain published as diagnostic evidence but do not enter the speed
+leaderboard. See the
+[full run evidence](full1651-c2-accuracy-20260826T065105Z-ar/README.md).
+
 ## Interim Speed Result
 
 The 30-page sampled speed benchmark is complete and passed. This sample is not
@@ -79,6 +88,8 @@ The sampled average latency differs from the available 584-page reference by
 - [Full c2 accuracy evidence](full1651-c2-accuracy-20260826T065105Z-ar/README.md)
 - [Full c2 accuracy report](full1651-c2-accuracy-20260826T065105Z-ar/accuracy.json)
 - [Full c2 evaluator summary](full1651-c2-accuracy-20260826T065105Z-ar/evaluator-summary.json)
+- [Full1651 speed summary](full1651-c2-accuracy-20260826T065105Z-ar/speed.json)
+- [Full1651 speed records](full1651-c2-accuracy-20260826T065105Z-ar/speed-records.jsonl)
 - [Sample details](sampled-speed-30-20260826T065105Z-ar/README.md)
 - [Speed summary](sampled-speed-30-20260826T065105Z-ar/sampled-speed.json)
 - [Per-request records](sampled-speed-30-20260826T065105Z-ar/speed-records.jsonl)

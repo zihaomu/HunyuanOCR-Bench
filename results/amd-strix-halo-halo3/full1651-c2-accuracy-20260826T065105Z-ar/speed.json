@@ -1,0 +1,46 @@
+{
+  "status": "FAIL",
+  "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
+  "profile_id": "full1651-c1",
+  "sample_inventory_sha256": "344d236b31d265915b723f3106613bbbeaf37cf988db7f58b76d88cbb7c2a1b4",
+  "images": 1651,
+  "requests": 1651,
+  "successful": 1651,
+  "failed": 0,
+  "truncated": 13,
+  "missing_completion_tokens": 0,
+  "wall_seconds": 30499.429615,
+  "request_seconds_sum": 30499.429615,
+  "average_latency_seconds": 18.473307,
+  "page_per_second": 0.054132,
+  "wall_page_per_second": 0.054132,
+  "completion_tokens": 1669171,
+  "token_per_second": 54.7279,
+  "latency_seconds": {
+    "mean": 18.473307,
+    "p50": 7.801051,
+    "p90": 59.693706,
+    "p95": 86.535468,
+    "p99": 139.778957,
+    "min": 0.229834,
+    "max": 232.141967
+  },
+  "parameters": {
+    "temperature": 0.0,
+    "max_tokens": 8000,
+    "extra_body": {
+      "top_k": 1
+    },
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "tencent/HunyuanOCR",
+    "concurrency": 1,
+    "warmup_pages": 10,
+    "repetitions": 1,
+    "image_data_url_mime": "image/png"
+  },
+  "resume_provenance": {
+    "checkpoint_records": 584,
+    "resumed_wall_seconds": 24604.607633,
+    "note": "wall_seconds uses request latency sum because the run resumed after interruption"
+  }
+}
