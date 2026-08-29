@@ -16,8 +16,9 @@ Only rows with the same speed profile are directly comparable. Page/s is the pri
 
 These diagnostic or sampled results are shown for visibility only. They must not be ranked against published rows.
 
-| Machine | Accelerator | Framework | Method | Profile/sample | Avg latency (s) | P95 (s) | Page/s | Token/s* |
-| --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: |
-| amd-strix-halo-halo3 | 1× AMD Ryzen AI Max+ 395 w/ Radeon 8060S (gfx1151) | vLLM | ar | sampled-30-from-584 | 10.371 | 32.408 | 0.0964 | 80.9 |
+| Machine | Accelerator | Framework | Method | Profile/sample | Status | Avg latency (s) | P95 (s) | Page/s | Token/s* |
+| --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: |
+| amd-strix-halo-halo3 | 1× AMD Ryzen AI Max+ 395 w/ Radeon 8060S (gfx1151) | vLLM | ar | full1651-c1 | FAIL | 18.473 | 86.535 | 0.0541 | 54.7 |
+| amd-strix-halo-halo3 | 1× AMD Ryzen AI Max+ 395 w/ Radeon 8060S (gfx1151) | vLLM | ar | sampled-30-from-584 | SAMPLED | 10.371 | 32.408 | 0.0964 | 80.9 |
 
 \* Token/s is diagnostic only and is not comparable across different tokenizers.

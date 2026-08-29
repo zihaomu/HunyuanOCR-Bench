@@ -57,15 +57,22 @@ class AggregateTests(unittest.TestCase):
                 [result["speed"]["profile_id"] for result in published],
                 ["quick9-c1"] * len(PUBLISHED_IDS),
             )
-            self.assertEqual([result["machine_id"] for result in sampled], [SAMPLED_ID])
-            self.assertEqual(sampled[0]["speed"]["profile_id"], "sampled-30-from-584")
+            self.assertEqual(
+                [(result["machine_id"], result["speed"]["profile_id"]) for result in sampled],
+                [
+                    (SAMPLED_ID, "full1651-c1"),
+                    (SAMPLED_ID, "sampled-30-from-584"),
+                ],
+            )
+            self.assertEqual(sampled[0]["speed"]["status"], "FAIL")
 
             leaderboard = (output_dir / "speed.md").read_text(encoding="utf-8")
             self.assertIn("## Published Speed Results", leaderboard)
             self.assertIn("## Non-comparable References", leaderboard)
             positions = [leaderboard.index(machine_id) for machine_id in PUBLISHED_IDS]
             self.assertEqual(positions, sorted(positions))
-            self.assertEqual(leaderboard.count(f"| {SAMPLED_ID} |"), 2)
+            self.assertEqual(leaderboard.count(f"| {SAMPLED_ID} |"), 3)
+            self.assertIn("| full1651-c1 | FAIL |", leaderboard)
             self.assertLess(leaderboard.index(PUBLISHED_IDS[-1]), leaderboard.rindex(SAMPLED_ID))
 
             overview = (root / "results" / "README.md").read_text(encoding="utf-8")
@@ -77,7 +84,7 @@ class AggregateTests(unittest.TestCase):
             self.assertIn("Overall 95.593058", overview)
             self.assertIn("[Speed leaderboard](../leaderboards/speed.md)", overview)
             self.assertIn("[Structured speed results](../leaderboards/speed-results.json)", overview)
-            overview_ids = PUBLISHED_IDS + [SAMPLED_ID]
+            overview_ids = PUBLISHED_IDS + [SAMPLED_ID, SAMPLED_ID]
             overview_rows = [
                 line.split("](", 1)[0].removeprefix("| [")
                 for line in overview.splitlines()
@@ -86,7 +93,10 @@ class AggregateTests(unittest.TestCase):
             self.assertEqual(overview_rows, overview_ids)
             for machine_id in dict.fromkeys(overview_ids):
                 self.assertIn(f"[{machine_id}]({machine_id}/)", overview)
-            self.assertEqual(overview.count("| Machine | Accelerator | Profile |"), 1)
+            self.assertEqual(
+                overview.count("| Machine | Accelerator | Profile | Status |"), 1
+            )
+            self.assertIn("| full1651-c1 | FAIL |", overview)
             self.assertNotIn("not ranked against the table above", overview)
 
     def test_canonical_and_local_accuracy_are_labeled_separately(self) -> None:
@@ -211,6 +221,25 @@ class AggregateTests(unittest.TestCase):
             f"{halo_speed['latency_seconds']['p95']:.3f} | "
             f"{halo_speed['page_per_second']:.4f} | "
             f"{halo_speed['token_per_second']:.1f} |",
+            readme,
+        )
+
+        speed_results = json.loads(
+            (ROOT / "leaderboards" / "speed-results.json").read_text(encoding="utf-8")
+        )
+        r9700_speed = next(
+            result["speed"]
+            for result in speed_results
+            if result["machine_id"] == "amd-r9700-workstation-sh"
+            and result["speed"]["profile_id"] == "quick9-c1"
+        )
+        self.assertIn(
+            "| [AMD Radeon AI PRO R9700]"
+            "(results/amd-r9700-workstation-sh/SERVING.md) | "
+            f"{r9700_speed['average_latency_seconds']:.3f} | "
+            f"{r9700_speed['latency_seconds']['p95']:.3f} | "
+            f"{r9700_speed['page_per_second']:.4f} | "
+            f"{r9700_speed['token_per_second']:.1f} |",
             readme,
         )
 

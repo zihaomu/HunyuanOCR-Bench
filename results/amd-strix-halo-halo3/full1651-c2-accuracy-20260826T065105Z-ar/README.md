@@ -1,10 +1,11 @@
 # Full 1,651-page Strix Halo run (accuracy c2)
 
-This directory publishes the complete accuracy evidence from the Strix Halo
-run. It is intentionally **not** a canonical leaderboard result: accuracy used
-request concurrency 2 instead of the protocol's required concurrency 1. No
-`result.json` is provided, so repository aggregation will not accept this
-directory as a protocol PASS.
+This directory publishes the complete accuracy evidence and full speed evidence
+from the Strix Halo run. It is intentionally **not** a canonical leaderboard
+result: accuracy used request concurrency 2 instead of the protocol's required
+concurrency 1, and the `full1651-c1` speed run reached the 8,000-token limit on
+13 pages. No `result.json` is provided, so repository aggregation will not
+accept this directory as a protocol PASS.
 
 ## Accuracy
 
@@ -30,6 +31,27 @@ post-processing. The vLLM endpoint used BF16, TP=1, a 16 GiB fixed KV cache,
 comparison, but it remains a protocol deviation and the score must not be
 compared as a strict c1 result.
 
+## Speed
+
+| Metric | Result |
+| --- | ---: |
+| Strict status | FAIL |
+| Images / requests / successful | 1,651 / 1,651 / 1,651 |
+| Failed / truncated | 0 / 13 |
+| Average latency | 18.473307 s/page |
+| P50 / P95 / P99 latency | 7.801051 / 86.535468 / 139.778957 s |
+| Page throughput | 0.054132 page/s |
+| Token throughput | 54.7279 token/s |
+| Completion tokens | 1,669,171 |
+| Request time sum | 30,499.429615 s |
+
+Speed used the canonical `full1651-c1` request settings: concurrency 1, ten
+warm-up pages, one measured repetition, `temperature=0`, `max_tokens=8000`, and
+`top_k=1`. The run resumed from a byte-preserved 584-record checkpoint. Its
+summary uses the sum of all request latencies because a single uninterrupted
+wall interval does not exist. All requests succeeded, but 13 responses ended
+with `finish_reason=length`, so the strict speed gate correctly reports FAIL.
+
 ## Provenance
 
 - Accelerator: AMD Ryzen AI Max+ 395 with Radeon 8060S (`gfx1151`)
@@ -46,6 +68,8 @@ Evidence:
 - [Accuracy report](accuracy.json)
 - [Evaluator summary](evaluator-summary.json)
 - [Prediction verification](prediction-verification.json)
+- [Full speed summary](speed.json)
+- [Full speed records](speed-records.jsonl)
 - [Asset verification](assets-verification.json)
 - [Machine capture](machine-capture.json)
 - [Machine profile snapshot](machine.json)
@@ -59,4 +83,6 @@ evaluator-summary.json        f083fc0b22755935c13bc0a8608fc42bccf1ade6c6c9f346c9
 machine-capture.json          b2b5f6c647891280c2b2af96b01c7ff5db7b6d91a1f6bb7c48f9bb8c285a682e
 machine.json                  c11b8f9ef391f0e56edeaa378b1d012fb2a4773ce4b33eae6465056a46f7daa7
 prediction-verification.json  2e6ce188d3fccf6857ae097b486830c892e1b8c238383cda425ea6613ad0e66f
+speed.json                    2c47e2905221e6355fe6c6779b0147c9cdbce3f21d9e8b81bb695ed4122ebc26
+speed-records.jsonl           568374e76ecdd5f7866ef7af6e735452f4d5c84482d8dfba02d13b63625dd733
 ```

@@ -42,10 +42,9 @@ def _load_speed_only(
     machine = _machine_for_result(results_root, machine_id)
     profile_id = speed.get("profile_id")
     profile = protocol["speed_profiles"].get(profile_id)
-    if not profile or profile.get("publishable") is not True:
-        raise ValueError(f"speed-only result does not use a publishable profile: {path}")
+    if not profile:
+        raise ValueError(f"speed-only result uses an unknown profile: {path}")
     expected = {
-        "status": "PASS",
         "protocol_id": protocol["protocol_id"],
         "sample_inventory_sha256": profile["sample_inventory_sha256"],
         "images": profile["expected_pages"],
@@ -78,16 +77,47 @@ def _load_speed_only(
         sample_sha256=speed["sample_inventory_sha256"],
         parameters=parameters,
     )
-    if rebuilt != speed:
+    summary = dict(speed)
+    resume_provenance = summary.pop("resume_provenance", None)
+    legacy_truncation_status = (
+        profile.get("publishable") is not True
+        and summary.get("status") == "FAIL"
+        and rebuilt.get("status") == "PASS"
+        and rebuilt.get("truncated", 0) > 0
+    )
+    if legacy_truncation_status:
+        summary["status"] = "PASS"
+    if rebuilt != summary:
         differences = sorted(
-            key for key in rebuilt.keys() | speed.keys() if rebuilt.get(key) != speed.get(key)
+            key for key in rebuilt.keys() | summary.keys()
+            if rebuilt.get(key) != summary.get(key)
         )
         raise ValueError(
             f"speed summary does not match request records ({', '.join(differences)}): {path}"
         )
+    if resume_provenance is not None:
+        if not isinstance(resume_provenance, dict):
+            raise ValueError(f"speed resume_provenance must be an object: {path}")
+        checkpoint_records = resume_provenance.get("checkpoint_records")
+        resumed_wall_seconds = resume_provenance.get("resumed_wall_seconds")
+        note = resume_provenance.get("note")
+        if (
+            not isinstance(checkpoint_records, int)
+            or isinstance(checkpoint_records, bool)
+            or not 0 < checkpoint_records < speed["requests"]
+            or not isinstance(resumed_wall_seconds, (int, float))
+            or isinstance(resumed_wall_seconds, bool)
+            or resumed_wall_seconds <= 0
+            or not isinstance(note, str)
+            or not note
+        ):
+            raise ValueError(f"speed resume_provenance is invalid: {path}")
+    publishable = profile.get("publishable") is True and speed["status"] == "PASS"
+    if profile.get("publishable") is True and speed["status"] != "PASS":
+        raise ValueError(f"publishable speed result is not PASS: {path}")
     return {
-        "kind": "speed-only",
-        "publishable": True,
+        "kind": "speed-only" if publishable else "diagnostic-speed",
+        "publishable": publishable,
         "machine_id": machine_id,
         "run_id": path.parent.name,
         "accelerator": machine["accelerator"],
@@ -372,8 +402,8 @@ def aggregate_results(
                 "",
                 "These diagnostic or sampled results are shown for visibility only. They must not be ranked against published rows.",
                 "",
-                "| Machine | Accelerator | Framework | Method | Profile/sample | Avg latency (s) | P95 (s) | Page/s | Token/s* |",
-                "| --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: |",
+                "| Machine | Accelerator | Framework | Method | Profile/sample | Status | Avg latency (s) | P95 (s) | Page/s | Token/s* |",
+                "| --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: |",
             ]
         )
         for result in references:
@@ -383,7 +413,7 @@ def aggregate_results(
             runtime = result["runtime"]
             speed_lines.append(
                 f"| {result['machine_id']} | {accelerator_label} | {runtime['framework']} | "
-                f"{runtime['inference_method']} | {speed['profile_id']} | "
+                f"{runtime['inference_method']} | {speed['profile_id']} | {speed.get('status', 'SAMPLED')} | "
                 f"{_f(speed['average_latency_seconds'], 3)} | {_f(speed['latency_seconds']['p95'], 3)} | "
                 f"{_f(speed['page_per_second'], 4)} | {_f(speed['token_per_second'], 1)} |"
             )
@@ -396,10 +426,10 @@ def aggregate_results(
         "",
         "## Speed Results",
         "",
-        "Rows are ordered by Page/s. The Profile column identifies the measurement inventory used for each result.",
+        "Rows are ordered by Page/s. Profile and status identify the measurement inventory and whether the result passed its original gate.",
         "",
-        "| Machine | Accelerator | Profile | Avg latency (s)↓ | P95 (s)↓ | Page/s↑ | Token/s* |",
-        "| --- | --- | --- | ---: | ---: | ---: | ---: |",
+        "| Machine | Accelerator | Profile | Status | Avg latency (s)↓ | P95 (s)↓ | Page/s↑ | Token/s* |",
+        "| --- | --- | --- | --- | ---: | ---: | ---: | ---: |",
     ]
     overview_speed = sorted(
         speed_results,
@@ -411,12 +441,13 @@ def aggregate_results(
         speed = result["speed"]
         overview_lines.append(
             f"| [{result['machine_id']}]({result['machine_id']}/) | {accelerator_label} | "
-            f"{speed['profile_id']} | {_f(speed['average_latency_seconds'], 3)} | "
+            f"{speed['profile_id']} | {speed.get('status', 'SAMPLED')} | "
+            f"{_f(speed['average_latency_seconds'], 3)} | "
             f"{_f(speed['latency_seconds']['p95'], 3)} | {_f(speed['page_per_second'], 4)} | "
             f"{_f(speed['token_per_second'], 1)} |"
         )
     if not overview_speed:
-        overview_lines.append("| - | - | - | - | - | - | - |")
+        overview_lines.append("| - | - | - | - | - | - | - | - |")
     overview_lines.extend(["", "## Accuracy Status", ""])
     if results:
         overview_lines.append(
