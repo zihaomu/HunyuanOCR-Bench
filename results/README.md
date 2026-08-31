@@ -9,10 +9,10 @@ Rows are ordered by Page/s. Profile and status identify the measurement inventor
 | Machine | Accelerator | Profile | Status | Avg latency (s)↓ | P95 (s)↓ | Page/s↑ | Token/s* |
 | --- | --- | --- | --- | ---: | ---: | ---: | ---: |
 | [nvidia-rtx4090-amd-sys-741ge-tnrt](nvidia-rtx4090-amd-sys-741ge-tnrt/) | 1× NVIDIA GeForce RTX 4090 | quick9-c1 | PASS | 1.682 | 4.569 | 0.5944 | 392.7 |
+| [amd-r9700-workstation-sh](amd-r9700-workstation-sh/) | 1× AMD Radeon AI PRO R9700 (gfx1201) | quick9-c1 | PASS | 2.457 | 6.879 | 0.4070 | 267.4 |
 | [amd-w7900d-gpu1-xw-k8s-test-m-001](amd-w7900d-gpu1-xw-k8s-test-m-001/) | 1× AMD Radeon PRO W7900D (gfx1100) | quick9-c1 | PASS | 4.662 | 21.929 | 0.2145 | 90.7 |
 | [amd-strix-halo-halo3](amd-strix-halo-halo3/) | 1× AMD Ryzen AI Max+ 395 w/ Radeon 8060S (gfx1151) | quick9-c1 | PASS | 4.962 | 14.020 | 0.2015 | 132.2 |
 | [nvidia-gb10-spark2-shanghai](nvidia-gb10-spark2-shanghai/) | 1× NVIDIA GB10 | quick9-c1 | PASS | 5.397 | 15.168 | 0.1853 | 122.0 |
-| [amd-r9700-workstation-sh](amd-r9700-workstation-sh/) | 1× AMD Radeon AI PRO R9700 (gfx1201) | quick9-c1 | PASS | 5.700 | 16.534 | 0.1754 | 115.2 |
 | [amd-strix-halo-halo3](amd-strix-halo-halo3/) | 1× AMD Ryzen AI Max+ 395 w/ Radeon 8060S (gfx1151) | sampled-30-from-584 | SAMPLED | 10.371 | 32.408 | 0.0964 | 80.9 |
 | [amd-strix-halo-halo3](amd-strix-halo-halo3/) | 1× AMD Ryzen AI Max+ 395 w/ Radeon 8060S (gfx1151) | full1651-c1 | FAIL | 18.473 | 86.535 | 0.0541 | 54.7 |
 

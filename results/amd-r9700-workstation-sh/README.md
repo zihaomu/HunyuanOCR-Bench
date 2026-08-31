@@ -19,7 +19,7 @@ OmniDocBench v1.6, all 1,651 pages, protocol-pinned evaluator image:
 
 | Avg latency (s)↓ | P95 (s)↓ | Page/s↑ | Token/s* |
 | ---: | ---: | ---: | ---: |
-| 7.346 | 21.013 | 0.1361 | 89.4 |
+| 2.457 | 6.879 | 0.4070 | 267.4 |
 
 ## Evidence
 

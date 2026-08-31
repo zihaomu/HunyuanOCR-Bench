@@ -3,7 +3,7 @@
     "schema_version": "1.0",
     "status": "PASS",
     "run_id": "amd-r9700-workstation-sh-20260827T014842Z-ar",
-    "created_at": "2026-08-28T06:40:03.802933+00:00",
+    "created_at": "2026-08-31T03:17:26.180354+00:00",
     "protocol_id": "hunyuanocr-1.5-omnidocbench-1.6-v1",
     "protocol_revision": "2ff5d7eed19b2d18b41e1ad4d31c6b673256c502",
     "machine_id": "amd-r9700-workstation-sh",
@@ -17,13 +17,13 @@
       "framework": "vLLM",
       "framework_version": "0.1.dev1+g3775d5fca",
       "inference_method": "ar",
-      "base_url": "http://127.0.0.1:18016/v1",
+      "base_url": "http://127.0.0.1:18021/v1",
       "served_model_name": "tencent/HunyuanOCR",
       "container_image": "ghcr.io/inferstation/vllm-rocm-r9700-main",
       "container_image_digest": "sha256:2d3a6275b1000cc9dce4c105dae899edd95d77875ede0c4d5d9b9c53a29faaf1",
       "precision": "bfloat16",
       "tensor_parallel": 1,
-      "physical_gpu": 0,
+      "physical_gpu": 3,
       "max_model_len": 131072,
       "gpu_memory_utilization": 0.9,
       "accuracy_replica_gpus": [
@@ -118,21 +118,21 @@
       "failed": 0,
       "truncated": 0,
       "missing_completion_tokens": 0,
-      "wall_seconds": 153.921213,
-      "request_seconds_sum": 153.900599,
-      "average_latency_seconds": 5.700022,
-      "page_per_second": 0.175438,
-      "wall_page_per_second": 0.175414,
-      "completion_tokens": 17727,
-      "token_per_second": 115.1847,
+      "wall_seconds": 66.357205,
+      "request_seconds_sum": 66.337832,
+      "average_latency_seconds": 2.456957,
+      "page_per_second": 0.407008,
+      "wall_page_per_second": 0.406889,
+      "completion_tokens": 17736,
+      "token_per_second": 267.3588,
       "latency_seconds": {
-        "mean": 5.700022,
-        "p50": 4.037814,
-        "p90": 16.529575,
-        "p95": 16.534345,
-        "p99": 16.535642,
-        "min": 1.63626,
-        "max": 16.535642
+        "mean": 2.456957,
+        "p50": 1.963758,
+        "p90": 6.874831,
+        "p95": 6.878921,
+        "p99": 6.879696,
+        "min": 0.695116,
+        "max": 6.879696
       },
       "parameters": {
         "temperature": 0.0,
@@ -140,7 +140,7 @@
         "extra_body": {
           "top_k": 1
         },
-        "base_url": "http://127.0.0.1:18016/v1",
+        "base_url": "http://127.0.0.1:18021/v1",
         "model": "tencent/HunyuanOCR",
         "concurrency": 1,
         "warmup_pages": 9,
@@ -150,13 +150,13 @@
     },
     "artifacts": {
       "accuracy_sha256": "d40cb5e9bcdf4e5e8811c09c7c0ef8cd7f615bb6ebfd0776a6d091cb83caf93f",
-      "speed_sha256": "7dcd329b8a65488143ac9ed47f6df52d4a9c83f550c3d2e60227df303b2fa3b1",
-      "machine_capture_sha256": "8f50de59cac470e8e88a48c7ff4861582f7e840ad251b8538697ac31c838a656",
+      "speed_sha256": "b0c493bd418b92bde136bfaf93e805b7b0a451a40369ac12379639511ad73e8d",
+      "machine_capture_sha256": "d3bfbd4607335840c280718c8faf221007586c65a3b6d70a2f84e158b24e76d2",
       "assets_verification_sha256": "2a3ea3144bd3d984256536e22267243a91614c975bf0bde54cad0582e7cb88ce",
       "prediction_verification_sha256": "0d4e820f0b7d1671df9883d262101cf48ee3bdfaa5204fa8cc4eb579bff6e348",
       "evaluator_summary_sha256": "4fff468e9db10ec3921a0cf2f0fabd88bdaae4150e69405343af43b999398ab3",
-      "speed_records_sha256": "b83fc636a1bcfd5aae0ef7ad12876a75a8c44ea61351bf85845955a48411d7fa",
-      "machine_profile_sha256": "9e3d3f0768089e3367677f6752d571dbfe3615d859ae0c296f3ea477e75a8350"
+      "speed_records_sha256": "0d9128f20209c8bdf52133070404975eb290db4562f91e76147da278fd4de002",
+      "machine_profile_sha256": "1b934bfac6d80ef61cabcfc4d677f9cd0e5e8f2b9080f0b9eeb9ca8ca6f5e4f0"
     }
   },
   {

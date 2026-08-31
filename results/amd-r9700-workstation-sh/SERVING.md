@@ -1,7 +1,7 @@
 # AMD Radeon AI PRO R9700 Serving Configuration
 
 This is the configuration used for the canonical R9700 result. Speed used one
-compiled AR endpoint. Accuracy used two independent eager TP=1 replicas so the
+compiled AR endpoint with `--attention-backend TRITON_ATTN` (the decisive gfx1201/RDNA4 flag; see the Attention backend note below). Accuracy used two independent eager TP=1 replicas so the
 1,651 variable-resolution pages did not trigger per-shape recompilation.
 
 - [Machine profile](../../machines/amd-r9700-workstation-sh.json)
@@ -21,8 +21,23 @@ compiled AR endpoint. Accuracy used two independent eager TP=1 replicas so the
 | Base image | `ghcr.io/inferstation/vllm-rocm-r9700-main` |
 | Base image digest | `sha256:2d3a6275b1000cc9dce4c105dae899edd95d77875ede0c4d5d9b9c53a29faaf1` |
 | ROCm / PyTorch | ROCm 7.14 / PyTorch 2.13.0a0+rocm7.14.0a20260612 |
-| Speed endpoint | HIP0, port 18016, torch.compile enabled |
+| Speed endpoint | HIP3, port 18021, torch.compile enabled, `--attention-backend TRITON_ATTN` |
 | Accuracy endpoints | HIP3:18017 and HIP2:18018, eager mode |
+
+## Attention Backend (decisive for speed)
+
+On gfx1201/RDNA4 the default `ROCM_ATTN` decode kernel scales poorly with KV
+length: the ~3,500 vision-token context per OCR page roughly halves decode
+throughput. Forcing `--attention-backend TRITON_ATTN` removes that penalty and
+lifts concurrency-1 decode ~3x (89 -> 267 tok/s on quick9-c1), reproducibly and
+with identical model, weights and generation parameters. `VLLM_ATTENTION_BACKEND`
+(env) is ignored by this dev build, so the flag must be passed on the
+`vllm serve` command line. AITER and flash_attn are unavailable on gfx1201, so
+`ROCM_ATTN` and `TRITON_ATTN` are the only decoder options. The published accuracy
+(Overall 95.62) was scored on the default-`ROCM_ATTN` eager replicas; `TRITON_ATTN`
+only perturbs outputs by floating-point rounding near EOS (a 9-token drift over the
+27 quick9 requests, ~99.9% identical), so an accuracy re-score under `TRITON_ATTN`
+is expected within noise but was not separately published.
 
 ## Required Image Patch
 
@@ -80,27 +95,42 @@ docker build -t local/hyocr-r9700:v1 .
 #!/bin/bash
 set -e
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+export MIOPEN_USER_DB_PATH=/tmp/miopen-db MIOPEN_CUSTOM_CACHE_DIR=/tmp/miopen-cache
+mkdir -p "$MIOPEN_USER_DB_PATH" "$MIOPEN_CUSTOM_CACHE_DIR"
 exec vllm serve /model \
   --served-model-name tencent/HunyuanOCR \
   -tp 1 \
   --limit-mm-per-prompt '{"image":4,"video":0}' \
   --trust-remote-code \
+  --skip-mm-profiling \
+  --attention-backend TRITON_ATTN \
   --port "${PORT:-8000}" \
   --gpu-memory-utilization 0.9 \
   --max-model-len 131072 \
   --max-num-batched-tokens 131072
 ```
 
+`--attention-backend TRITON_ATTN` is the flag that delivers the ~3x decode
+speed-up on gfx1201. `--skip-mm-profiling` only shortens startup (it skips the
+one-off gfx1201 ViT-conv MIOpen tuning) and does not change decode throughput.
+
 ```bash
 ASSETS=$PWD/assets
-docker run -d --name hyocr_p18016 \
+docker run -d --name hyocr_triton \
   --device=/dev/kfd --device=/dev/dri \
   --group-add video --group-add render \
   --security-opt seccomp=unconfined --ipc=host --shm-size=16g --network host \
-  -e HIP_VISIBLE_DEVICES=0 -e PORT=18016 \
+  -e HIP_VISIBLE_DEVICES=3 -e PORT=18021 \
   -v "$ASSETS/models/HunyuanOCR:/model:ro" \
   -v "$PWD/hyocr_serve.sh:/hyocr_serve.sh:ro" \
   --entrypoint bash local/hyocr-r9700:v1 /hyocr_serve.sh
+```
+
+Measure with the official harness (9 warm-up + 27 timed, concurrency 1):
+
+```bash
+./scripts/run-speed.sh machines/amd-r9700-workstation-sh.json <RUN_ID> quick9-c1
+# -> work/<RUN_ID>/speed/summary.json  (token_per_second ~= 267 on this host)
 ```
 
 ## Accuracy Endpoints

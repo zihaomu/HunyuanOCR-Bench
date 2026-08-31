@@ -17,10 +17,10 @@ The two primary outputs are:
 | Accelerator / configuration | Avg latency (s)↓ | P95 (s)↓ | Page/s↑ | Token/s* |
 | --- | ---: | ---: | ---: | ---: |
 | [NVIDIA RTX 4090](results/nvidia-rtx4090-amd-sys-741ge-tnrt/SERVING.md) | 1.682 | 4.569 | 0.5944 | 392.7 |
+| [AMD Radeon AI PRO R9700](results/amd-r9700-workstation-sh/SERVING.md) | 2.457 | 6.879 | 0.4070 | 267.4 |
 | [AMD Radeon PRO W7900D](results/amd-w7900d-gpu1-xw-k8s-test-m-001/SERVING.md) | 4.662 | 21.929 | 0.2145 | 90.7 |
 | [AMD Ryzen AI Max+ 395 (Radeon 8060S)](results/amd-strix-halo-halo3/SERVING.md) | 4.962 | 14.020 | 0.2015 | 132.2 |
 | [NVIDIA GB10](results/nvidia-gb10-spark2-shanghai/) | 5.397 | 15.168 | 0.1853 | 122.0 |
-| [AMD Radeon AI PRO R9700](results/amd-r9700-workstation-sh/SERVING.md) | 5.700 | 16.534 | 0.1754 | 115.2 |
 
 All rows above use the same fixed nine-page inventory, one GPU, request
 concurrency 1, one warm-up per page, and three measured repetitions. Page/s is
